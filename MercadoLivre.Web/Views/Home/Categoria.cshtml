@@ -1,0 +1,140 @@
+@model List<MercadoLivre.Web.Models.Produto>
+@{
+    var categoria = ViewBag.Categoria as MercadoLivre.Web.Models.Categoria;
+    ViewData["Title"] = categoria?.Nome ?? "Categoria";
+    var paginaAtual = (int)ViewBag.PaginaAtual;
+    var totalPaginas = (int)ViewBag.TotalPaginas;
+}
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a asp-controller="Home" asp-action="Index" class="text-decoration-none">
+                        <i class="bi bi-house"></i> Início
+                    </a>
+                </li>
+                <li class="breadcrumb-item active" aria-current="page">@categoria?.Nome</li>
+            </ol>
+        </nav>
+        
+        <div class="d-flex align-items-center mb-3">
+            @if (!string.IsNullOrEmpty(categoria?.ImagemUrl))
+            {
+                <img src="@categoria.ImagemUrl" alt="@categoria.Nome" style="height: 60px; width: 60px; object-fit: cover;" class="me-3 rounded">
+            }
+            else
+            {
+                <i class="bi bi-grid-3x3-gap-fill text-primary me-3" style="font-size: 3rem;"></i>
+            }
+            <div>
+                <h2 class="mb-1">@categoria?.Nome</h2>
+                <p class="text-muted mb-0">@categoria?.Descricao</p>
+                <small class="text-muted">@Model.Count produtos encontrados</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model?.Any() == true)
+{
+    <div class="row g-3">
+        @foreach (var produto in Model)
+        {
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 mb-4">
+                <div class="card h-100 card-produto shadow-sm">
+                    <a asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@produto.Id" class="text-decoration-none">
+                        @if (!string.IsNullOrEmpty(produto.ImagemPrincipal))
+                        {
+                            <img src="@produto.ImagemPrincipal" class="card-img-top" alt="@produto.Nome" style="height: 200px; object-fit: cover;">
+                        }
+                        else
+                        {
+                            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                            </div>
+                        }
+                    </a>
+                    <div class="card-body d-flex flex-column">
+                        <h6 class="card-title mb-2">
+                            <a asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@produto.Id" class="text-decoration-none text-dark">
+                                @produto.Nome
+                            </a>
+                        </h6>
+                        
+                        <div class="mt-auto">
+                            @if (produto.PrecoOriginal.HasValue)
+                            {
+                                <span class="desconto mb-1 d-inline-block">@produto.PercentualDesconto% OFF</span>
+                                <div class="preco-original small">@produto.PrecoOriginal.Value.ToString("C")</div>
+                            }
+                            <div class="h5 text-ml mb-2">@produto.PrecoComDesconto.ToString("C")</div>
+                            
+                            @if (produto.TotalAvaliacoes > 0)
+                            {
+                                <div class="mb-3">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= produto.MediaAvaliacoes)
+                                        {
+                                            <i class="bi bi-star-fill text-warning"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="bi bi-star text-muted"></i>
+                                        }
+                                    }
+                                    <small class="text-muted">(@produto.TotalAvaliacoes)</small>
+                                </div>
+                            }
+                            
+                            <button class="btn btn-ml btn-sm w-100" onclick="adicionarAoCarrinho(@produto.Id)">
+                                <i class="bi bi-cart-plus"></i> Adicionar ao Carrinho
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    
+    @if (totalPaginas > 1)
+    {
+        <nav aria-label="Navegação de páginas" class="mt-4">
+            <ul class="pagination justify-content-center">
+                @if (paginaAtual > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="Home" asp-action="Categoria" asp-route-id="@categoria?.Id" asp-route-pagina="@(paginaAtual - 1)">Anterior</a>
+                    </li>
+                }
+                
+                @for (int i = Math.Max(1, paginaAtual - 2); i <= Math.Min(totalPaginas, paginaAtual + 2); i++)
+                {
+                    <li class="page-item @(i == paginaAtual ? "active" : "")">
+                        <a class="page-link" asp-controller="Home" asp-action="Categoria" asp-route-id="@categoria?.Id" asp-route-pagina="@i">@i</a>
+                    </li>
+                }
+                
+                @if (paginaAtual < totalPaginas)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="Home" asp-action="Categoria" asp-route-id="@categoria?.Id" asp-route-pagina="@(paginaAtual + 1)">Próxima</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    }
+}
+else
+{
+    <div class="text-center py-5">
+        <i class="bi bi-box text-muted" style="font-size: 4rem;"></i>
+        <h4 class="mt-3 text-muted">Nenhum produto nesta categoria</h4>
+        <p class="text-muted">Esta categoria ainda não possui produtos cadastrados.</p>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-ml">
+            <i class="bi bi-house"></i> Voltar ao Início
+        </a>
+    </div>
+}

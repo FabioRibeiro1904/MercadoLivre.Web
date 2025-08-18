@@ -1,0 +1,186 @@
+@model Produto
+@{
+    ViewData["Title"] = Model.Nome;
+}
+
+<div class="container my-4">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Início</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="@Model.Categoria.Nome">@Model.Categoria.Nome</a></li>
+            <li class="breadcrumb-item active" aria-current="page">@Model.Nome</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="product-images">
+                @if (!string.IsNullOrEmpty(Model.ImagemPrincipal))
+                {
+                    <img src="@Model.ImagemPrincipal" class="img-fluid rounded shadow-sm" alt="@Model.Nome">
+                }
+                else
+                {
+                    <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height: 400px;">
+                        <i class="bi bi-image text-muted" style="font-size: 5rem;"></i>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="product-info">
+                <h1 class="mb-3">@Model.Nome</h1>
+                
+                @if (Model.TotalAvaliacoes > 0)
+                {
+                    <div class="mb-3">
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            if (i <= Model.MediaAvaliacoes)
+                            {
+                                <i class="bi bi-star-fill text-warning"></i>
+                            }
+                            else
+                            {
+                                <i class="bi bi-star text-muted"></i>
+                            }
+                        }
+                        <span class="ms-2 text-muted">(@Model.TotalAvaliacoes @(Model.TotalAvaliacoes == 1 ? "avaliação" : "avaliações"))</span>
+                    </div>
+                }
+
+                <div class="price-section mb-4">
+                    @if (Model.PrecoOriginal.HasValue)
+                    {
+                        <span class="badge bg-success mb-2">@Model.PercentualDesconto% OFF</span>
+                        <div class="text-muted text-decoration-line-through mb-1">De: @Model.PrecoOriginal.Value.ToString("C")</div>
+                    }
+                    <div class="h2 text-success mb-0">@Model.PrecoComDesconto.ToString("C")</div>
+                    <small class="text-muted">à vista no PIX ou em até 12x sem juros</small>
+                </div>
+
+                <div class="product-details mb-4">
+                    <h5>Descrição</h5>
+                    <p>@Model.Descricao</p>
+                </div>
+
+                <div class="purchase-section">
+                    @if (Model.Estoque > 0)
+                    {
+                        <div class="mb-3">
+                            <span class="text-success"><i class="bi bi-check-circle"></i> Estoque disponível (@Model.Estoque unidades)</span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary btn-lg" onclick="adicionarAoCarrinho(@Model.Id)">
+                                <i class="bi bi-cart-plus"></i> Adicionar ao Carrinho
+                            </button>
+                            <button class="btn btn-success btn-lg" onclick="comprarAgora(@Model.Id)">
+                                <i class="bi bi-lightning"></i> Comprar Agora
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle"></i> Produto esgotado
+                        </div>
+                    }
+                </div>
+
+                <div class="shipping-info mt-4 p-3 bg-light rounded">
+                    <h6><i class="bi bi-truck"></i> Informações de Entrega</h6>
+                    <ul class="list-unstyled mb-0">
+                        <li><i class="bi bi-check text-success"></i> Frete grátis para compras acima de R$ 99,00</li>
+                        <li><i class="bi bi-check text-success"></i> Entrega em 1-3 dias úteis</li>
+                        <li><i class="bi bi-check text-success"></i> Garantia de 30 dias</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (Model.Avaliacoes?.Any() == true)
+    {
+        <div class="row mt-5">
+            <div class="col-12">
+                <h4>Avaliações dos Clientes</h4>
+                
+                @foreach (var avaliacao in Model.Avaliacoes.Where(a => a.Ativo).OrderByDescending(a => a.DataAvaliacao))
+                {
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <div>
+                                    <strong>@avaliacao.Usuario.Nome</strong>
+                                    <div>
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= avaliacao.Nota)
+                                            {
+                                                <i class="bi bi-star-fill text-warning"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="bi bi-star text-muted"></i>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <small class="text-muted">@avaliacao.DataAvaliacao.ToString("dd/MM/yyyy")</small>
+                            </div>
+                            @if (!string.IsNullOrEmpty(avaliacao.Comentario))
+                            {
+                                <p class="mb-0">@avaliacao.Comentario</p>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+
+    @if (ViewBag.ProdutosRelacionados is List<Produto> produtosRelacionados && produtosRelacionados.Any())
+    {
+        <div class="row mt-5">
+            <div class="col-12">
+                <h4>Produtos Relacionados</h4>
+                <div class="row">
+                    @foreach (var produto in produtosRelacionados)
+                    {
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="card h-100">
+                                <a asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@produto.Id" class="text-decoration-none">
+                                    @if (!string.IsNullOrEmpty(produto.ImagemPrincipal))
+                                    {
+                                        <img src="@produto.ImagemPrincipal" class="card-img-top" alt="@produto.Nome" style="height: 200px; object-fit: cover;">
+                                    }
+                                    else
+                                    {
+                                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                            <i class="bi bi-image text-muted" style="font-size: 2rem;"></i>
+                                        </div>
+                                    }
+                                </a>
+                                <div class="card-body">
+                                    <h6 class="card-title">@produto.Nome</h6>
+                                    <div class="h6 text-success">@produto.PrecoComDesconto.ToString("C")</div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+function comprarAgora(produtoId) {
+    adicionarAoCarrinho(produtoId);
+    setTimeout(() => {
+        window.location.href = '/Carrinho';
+    }, 1000);
+}
+</script>

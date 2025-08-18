@@ -1,0 +1,257 @@
+@model Usuario
+@{
+    ViewData["Title"] = "Finalizar Compra";
+    var total = Model.ItensCarrinho.Sum(i => i.SubTotal);
+    var frete = 15.90m;
+}
+
+<div class="container mt-4">
+    <h1 class="mb-4">
+        <i class="bi bi-credit-card"></i> Finalizar Compra
+    </h1>
+
+    <form asp-action="FinalizarPedido" method="post">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Endereço de Entrega -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="bi bi-geo-alt"></i> Endereço de Entrega
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label for="endereco" class="form-label">Endereço</label>
+                                <input type="text" class="form-control" id="endereco" name="endereco" 
+                                       value="@Model.Endereco" placeholder="Rua, número, complemento">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="cep" class="form-label">CEP</label>
+                                <input type="text" class="form-control" id="cep" name="cep" 
+                                       value="@Model.CEP" placeholder="00000-000" maxlength="9">
+                                <small class="text-muted">Digite o CEP para preenchimento automático</small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label for="cidade" class="form-label">Cidade</label>
+                                <input type="text" class="form-control" id="cidade" name="cidade" 
+                                       value="@Model.Cidade">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="estado" class="form-label">Estado</label>
+                                <select class="form-select" id="estado" name="estado">
+                                    <option value="">Selecione</option>
+                                    <option value="SP" selected="@(Model.Estado == "SP")">São Paulo</option>
+                                    <option value="RJ" selected="@(Model.Estado == "RJ")">Rio de Janeiro</option>
+                                    <option value="MG" selected="@(Model.Estado == "MG")">Minas Gerais</option>
+                                    <option value="AC">Acre</option>
+                                    <option value="AL">Alagoas</option>
+                                    <option value="AP">Amapá</option>
+                                    <option value="AM">Amazonas</option>
+                                    <option value="BA">Bahia</option>
+                                    <option value="CE">Ceará</option>
+                                    <option value="DF">Distrito Federal</option>
+                                    <option value="ES">Espírito Santo</option>
+                                    <option value="GO">Goiás</option>
+                                    <option value="MA">Maranhão</option>
+                                    <option value="MT">Mato Grosso</option>
+                                    <option value="MS">Mato Grosso do Sul</option>
+                                    <option value="PA">Pará</option>
+                                    <option value="PB">Paraíba</option>
+                                    <option value="PR">Paraná</option>
+                                    <option value="PE">Pernambuco</option>
+                                    <option value="PI">Piauí</option>
+                                    <option value="RN">Rio Grande do Norte</option>
+                                    <option value="RS">Rio Grande do Sul</option>
+                                    <option value="RO">Rondônia</option>
+                                    <option value="RR">Roraima</option>
+                                    <option value="SC">Santa Catarina</option>
+                                    <option value="SE">Sergipe</option>
+                                    <option value="TO">Tocantins</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forma de Pagamento -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="bi bi-credit-card"></i> Forma de Pagamento
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="formaPagamento" 
+                                           id="cartaoCredito" value="CartaoCredito" checked>
+                                    <label class="form-check-label" for="cartaoCredito">
+                                        <i class="bi bi-credit-card"></i> Cartão de Crédito
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="formaPagamento" 
+                                           id="cartaoDebito" value="CartaoDebito">
+                                    <label class="form-check-label" for="cartaoDebito">
+                                        <i class="bi bi-credit-card-2-front"></i> Cartão de Débito
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="formaPagamento" 
+                                           id="pix" value="Pix">
+                                    <label class="form-check-label" for="pix">
+                                        <i class="bi bi-qr-code"></i> PIX
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="formaPagamento" 
+                                           id="boleto" value="Boleto">
+                                    <label class="form-check-label" for="boleto">
+                                        <i class="bi bi-file-text"></i> Boleto Bancário
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <!-- Resumo do Pedido -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Resumo do Pedido</h5>
+                    </div>
+                    <div class="card-body">
+                        @foreach (var item in Model.ItensCarrinho)
+                        {
+                            <div class="d-flex justify-content-between mb-2">
+                                <div>
+                                    <small>@item.Produto.Nome</small><br>
+                                    <small class="text-muted">Qtd: @item.Quantidade</small>
+                                </div>
+                                <small>@item.SubTotal.ToString("C")</small>
+                            </div>
+                        }
+                        
+                        <hr>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Subtotal (@Model.ItensCarrinho.Sum(i => i.Quantidade) itens):</span>
+                            <span>@total.ToString("C")</span>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Frete:</span>
+                            <span>@frete.ToString("C")</span>
+                        </div>
+                        
+                        <hr>
+                        
+                        <div class="d-flex justify-content-between mb-3">
+                            <strong>Total:</strong>
+                            <strong class="text-success">@((total + frete).ToString("C"))</strong>
+                        </div>
+
+                        <div class="alert alert-info mb-3">
+                            <i class="bi bi-wallet2"></i> <strong>Seu Saldo:</strong> R$ @Model.Saldo.ToString("F2")
+                            @if (Model.Saldo < (total + frete))
+                            {
+                                <br><small class="text-danger"><i class="bi bi-exclamation-triangle"></i> Saldo insuficiente para esta compra</small>
+                            }
+                            else
+                            {
+                                <br><small class="text-success"><i class="bi bi-check-circle"></i> Saldo suficiente</small>
+                            }
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg" @(Model.Saldo < (total + frete) ? "disabled" : "")>
+                                <i class="bi bi-check-circle"></i> Confirmar Pedido
+                            </button>
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left"></i> Voltar ao Carrinho
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Garantias -->
+                <div class="card">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <i class="bi bi-shield-check text-success" style="font-size: 2rem;"></i>
+                            <h6 class="mt-2">Compra 100% Segura</h6>
+                            <small class="text-muted">Seus dados protegidos</small>
+                        </div>
+                        <div class="mb-3">
+                            <i class="bi bi-truck text-primary" style="font-size: 2rem;"></i>
+                            <h6 class="mt-2">Entrega Garantida</h6>
+                            <small class="text-muted">Receba ou seu dinheiro de volta</small>
+                        </div>
+                        <div>
+                            <i class="bi bi-arrow-clockwise text-info" style="font-size: 2rem;"></i>
+                            <h6 class="mt-2">7 Dias para Trocar</h6>
+                            <small class="text-muted">Não gostou? Devolvemos</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+$(document).ready(function() {
+    $('#cep').on('input', function() {
+        let cep = $(this).val().replace(/\D/g, '');
+        if (cep.length <= 8) {
+            cep = cep.replace(/(\d{5})(\d)/, '$1-$2');
+            $(this).val(cep);
+            
+            if (cep.replace(/\D/g, '').length === 8) {
+                buscarCEP(cep.replace(/\D/g, ''));
+            }
+        }
+    });
+});
+
+function buscarCEP(cep) {
+    if (cep.length !== 8) return;
+    
+    $('#cidade').val('Buscando...');
+    $('#estado').val('');
+    
+    $.getJSON(`https:
+        .done(function(data) {
+            if (!data.erro) {
+                $('#cidade').val(data.localidade);
+                $('#estado').val(data.uf);
+                
+                if (!$('#endereco').val() && data.logradouro) {
+                    $('#endereco').val(data.logradouro);
+                }
+                
+                mostrarNotificacao('CEP encontrado com sucesso!', 'success');
+            } else {
+                $('#cidade').val('');
+                mostrarNotificacao('CEP não encontrado', 'error');
+            }
+        })
+        .fail(function() {
+            $('#cidade').val('');
+            mostrarNotificacao('Erro ao buscar CEP', 'error');
+        });
+}
+</script>

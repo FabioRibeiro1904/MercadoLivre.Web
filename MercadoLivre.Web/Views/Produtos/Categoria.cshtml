@@ -1,0 +1,125 @@
+@model CategoriaViewModel
+@{
+    ViewData["Title"] = Model.Categoria.Nome;
+}
+
+<div class="container my-4">
+    <div class="row">
+        <div class="col-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Início</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@Model.Categoria.Nome</li>
+                </ol>
+            </nav>
+            
+            <h1 class="mb-4">@Model.Categoria.Nome</h1>
+            <p class="text-muted">@Model.Categoria.Descricao</p>
+        </div>
+    </div>
+
+    @if (Model.Produtos?.Any() == true)
+    {
+        <div class="row">
+            @foreach (var produto in Model.Produtos)
+            {
+                <div class="col-xl-3 col-lg-4 col-md-6 col-12 mb-4">
+                    <div class="card card-produto shadow-sm h-100">
+                        <a asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@produto.Id" class="text-decoration-none">
+                            @if (!string.IsNullOrEmpty(produto.ImagemPrincipal))
+                            {
+                                <img src="@produto.ImagemPrincipal" class="card-img-top" alt="@produto.Nome" style="height: 200px; object-fit: cover;">
+                            }
+                            else
+                            {
+                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                    <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                                </div>
+                            }
+                        </a>
+                        <div class="card-body d-flex flex-column">
+                            <h6 class="card-title mb-2">
+                                <a asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@produto.Id" class="text-decoration-none text-dark">
+                                    @produto.Nome
+                                </a>
+                            </h6>
+                            
+                            <div class="mt-auto">
+                                @if (produto.PrecoOriginal.HasValue)
+                                {
+                                    <span class="desconto mb-1 d-inline-block">@produto.PercentualDesconto% OFF</span>
+                                    <div class="preco-original small">@produto.PrecoOriginal.Value.ToString("C")</div>
+                                }
+                                <div class="h5 text-ml mb-3">@produto.PrecoComDesconto.ToString("C")</div>
+                                
+                                @if (produto.TotalAvaliacoes > 0)
+                                {
+                                    <div class="mb-3">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= produto.MediaAvaliacoes)
+                                            {
+                                                <i class="bi bi-star-fill text-warning"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="bi bi-star text-muted"></i>
+                                            }
+                                        }
+                                        <small class="text-muted">(@produto.TotalAvaliacoes)</small>
+                                    </div>
+                                }
+                                
+                                <button class="btn btn-ml btn-sm w-100" onclick="adicionarAoCarrinho(@produto.Id)">
+                                    <i class="bi bi-cart-plus"></i> Adicionar ao Carrinho
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (Model.TotalPaginas > 1)
+        {
+            <nav aria-label="Navegação da página" class="mb-5">
+                <ul class="pagination justify-content-center">
+                    @if (Model.PaginaAtual > 1)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-action="Categoria" asp-route-categoria="@Model.Categoria.Nome" asp-route-pagina="@(Model.PaginaAtual - 1)">Anterior</a>
+                        </li>
+                    }
+
+                    @for (int i = Math.Max(1, Model.PaginaAtual - 2); i <= Math.Min(Model.TotalPaginas, Model.PaginaAtual + 2); i++)
+                    {
+                        <li class="page-item @(i == Model.PaginaAtual ? "active" : "")">
+                            <a class="page-link" asp-action="Categoria" asp-route-categoria="@Model.Categoria.Nome" asp-route-pagina="@i">@i</a>
+                        </li>
+                    }
+
+                    @if (Model.PaginaAtual < Model.TotalPaginas)
+                    {
+                        <li class="page-item">
+                            <a class="page-link" asp-action="Categoria" asp-route-categoria="@Model.Categoria.Nome" asp-route-pagina="@(Model.PaginaAtual + 1)">Próxima</a>
+                        </li>
+                    }
+                </ul>
+            </nav>
+        }
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <i class="bi bi-inbox text-muted" style="font-size: 5rem;"></i>
+            <h3 class="mt-3">Nenhum produto encontrado</h3>
+            <p class="text-muted">Não há produtos disponíveis nesta categoria no momento.</p>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
+                <i class="bi bi-house"></i> Voltar ao Início
+            </a>
+        </div>
+    }
+    
+    <!-- Espaço adicional para evitar sobreposição do footer -->
+    <div class="mb-5 pb-5"></div>
+</div>

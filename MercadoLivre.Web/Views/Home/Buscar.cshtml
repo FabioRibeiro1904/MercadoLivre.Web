@@ -1,0 +1,174 @@
+@model List<MercadoLivre.Web.Models.Produto>
+@{
+    ViewData["Title"] = "Buscar Produtos";
+    var categorias = ViewBag.Categorias as List<MercadoLivre.Web.Models.Categoria>;
+    var termo = ViewBag.Termo as string;
+    var categoriaId = ViewBag.CategoriaId as int?;
+    var paginaAtual = (int)ViewBag.PaginaAtual;
+    var totalPaginas = (int)ViewBag.TotalPaginas;
+}
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h3>
+            @if (!string.IsNullOrEmpty(termo))
+            {
+                <span>Resultados para: "<strong>@termo</strong>"</span>
+            }
+            else
+            {
+                <span>Todos os produtos</span>
+            }
+        </h3>
+        <p class="text-muted">@Model.Count produtos encontrados</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h6><i class="bi bi-funnel"></i> Filtros</h6>
+            </div>
+            <div class="card-body">
+                <form asp-controller="Home" asp-action="Buscar" method="get">
+                    <input type="hidden" name="termo" value="@termo" />
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Categoria</label>
+                        <select name="categoria" class="form-select" onchange="this.form.submit()">
+                            <option value="">Todas as categorias</option>
+                            @if (categorias != null)
+                            {
+                                @foreach (var cat in categorias)
+                                {
+                                    @if (categoriaId == cat.Id)
+                                    {
+                                        <option value="@cat.Id" selected>@cat.Nome</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@cat.Id">@cat.Nome</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-9">
+        @if (Model?.Any() == true)
+        {
+            <div class="row g-3">
+                @foreach (var produto in Model)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-6 mb-4">
+                        <div class="card h-100 card-produto shadow-sm">
+                            <a asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@produto.Id" class="text-decoration-none">
+                                @if (!string.IsNullOrEmpty(produto.ImagemPrincipal))
+                                {
+                                    <img src="@produto.ImagemPrincipal" class="card-img-top" alt="@produto.Nome" style="height: 200px; object-fit: cover;">
+                                }
+                                else
+                                {
+                                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                        <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                                    </div>
+                                }
+                            </a>
+                            <div class="card-body d-flex flex-column">
+                                <h6 class="card-title mb-2">
+                                    <a asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@produto.Id" class="text-decoration-none text-dark">
+                                        @produto.Nome
+                                    </a>
+                                </h6>
+                                
+                                <div class="mt-auto">
+                                    @if (produto.PrecoOriginal.HasValue)
+                                    {
+                                        <span class="desconto mb-1 d-inline-block">@produto.PercentualDesconto% OFF</span>
+                                        <div class="preco-original small">@produto.PrecoOriginal.Value.ToString("C")</div>
+                                    }
+                                    <div class="h5 text-ml mb-2">@produto.PrecoComDesconto.ToString("C")</div>
+                                    
+                                    @if (produto.TotalAvaliacoes > 0)
+                                    {
+                                        <div class="mb-3">
+                                            @for (int i = 1; i <= 5; i++)
+                                            {
+                                                if (i <= produto.MediaAvaliacoes)
+                                                {
+                                                    <i class="bi bi-star-fill text-warning"></i>
+                                                }
+                                                else
+                                                {
+                                                    <i class="bi bi-star text-muted"></i>
+                                                }
+                                            }
+                                            <small class="text-muted">(@produto.TotalAvaliacoes)</small>
+                                        </div>
+                                    }
+                                    
+                                    <button class="btn btn-ml btn-sm w-100" onclick="adicionarAoCarrinho(@produto.Id)">
+                                        <i class="bi bi-cart-plus"></i> Adicionar ao Carrinho
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            
+            @if (totalPaginas > 1)
+            {
+                <nav aria-label="Navegação de páginas">
+                    <ul class="pagination justify-content-center">
+                        @if (paginaAtual > 1)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Home" asp-action="Buscar" asp-route-termo="@termo" asp-route-categoria="@categoriaId" asp-route-pagina="@(paginaAtual - 1)">Anterior</a>
+                            </li>
+                        }
+                        
+                        @for (int i = Math.Max(1, paginaAtual - 2); i <= Math.Min(totalPaginas, paginaAtual + 2); i++)
+                        {
+                            <li class="page-item @(i == paginaAtual ? "active" : "")">
+                                <a class="page-link" asp-controller="Home" asp-action="Buscar" asp-route-termo="@termo" asp-route-categoria="@categoriaId" asp-route-pagina="@i">@i</a>
+                            </li>
+                        }
+                        
+                        @if (paginaAtual < totalPaginas)
+                        {
+                            <li class="page-item">
+                                <a class="page-link" asp-controller="Home" asp-action="Buscar" asp-route-termo="@termo" asp-route-categoria="@categoriaId" asp-route-pagina="@(paginaAtual + 1)">Próxima</a>
+                            </li>
+                        }
+                    </ul>
+                </nav>
+            }
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <i class="bi bi-search text-muted" style="font-size: 4rem;"></i>
+                <h4 class="mt-3 text-muted">Nenhum produto encontrado</h4>
+                <p class="text-muted">
+                    @if (!string.IsNullOrEmpty(termo))
+                    {
+                        <span>Tente buscar com outros termos ou navegue pelas categorias.</span>
+                    }
+                    else
+                    {
+                        <span>Não há produtos disponíveis no momento.</span>
+                    }
+                </p>
+                <a asp-controller="Home" asp-action="Index" class="btn btn-ml">
+                    <i class="bi bi-house"></i> Voltar ao Início
+                </a>
+            </div>
+        }
+    </div>
+</div>
