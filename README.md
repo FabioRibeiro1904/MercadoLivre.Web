@@ -1,6 +1,6 @@
 # E-commerce MercadoLivre Clone
 
-Sistema de teste, inspirado no inspirado no MercadoLivre, feito com ASP.NET MVC. Demonstra como criar uma loja virtual com carrinho, pagamentos e gestão de produtos.
+Sistema de teste, inspirado no MercadoLivre, feito com ASP.NET MVC. Demonstra como criar uma loja virtual com carrinho, pagamentos e gestão de produtos.
 
 ## O que é este projeto
 
