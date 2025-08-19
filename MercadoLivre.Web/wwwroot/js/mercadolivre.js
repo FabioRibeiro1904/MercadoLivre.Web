@@ -1,17 +1,17 @@
-// MercadoLivre JavaScript Functions
 
-// Atualizar contador do carrinho
+
+
 function updateCartCount() {
     $.get('/Carrinho/GetTotalItens', function(data) {
         $('#cart-count').text(data.totalItens || 0);
     });
 }
 
-// Adicionar produto ao carrinho
+
 function adicionarAoCarrinho(produtoId, quantidade = 1) {
     const btn = $(`[data-produto-id="${produtoId}"]`);
     
-    // Evitar múltiplos cliques
+    
     if (btn.prop('disabled')) {
         return;
     }
@@ -19,22 +19,22 @@ function adicionarAoCarrinho(produtoId, quantidade = 1) {
     const originalText = btn.html();
     const originalClasses = btn.attr('class');
     
-    // Função para restaurar o botão
+    
     function restoreButton() {
         btn.attr('class', originalClasses)
            .prop('disabled', false)
            .html(originalText);
     }
     
-    // Mostrar loading
+    
     btn.prop('disabled', true)
        .html('<i class="fas fa-spinner fa-spin"></i> Adicionando...');
     
-    // Timeout de segurança para evitar loading infinito
+    
     const timeoutId = setTimeout(() => {
         restoreButton();
         showToast('error', 'Tempo limite excedido. Tente novamente.');
-    }, 10000); // 10 segundos
+    }, 10000); 
     
     $.ajax({
         url: '/Carrinho/Adicionar',
@@ -43,27 +43,27 @@ function adicionarAoCarrinho(produtoId, quantidade = 1) {
             produtoId: produtoId,
             quantidade: quantidade
         },
-        timeout: 8000, // 8 segundos de timeout
+        timeout: 8000, 
         success: function(response) {
             clearTimeout(timeoutId);
             
             if (response && response.sucesso) {
-                // Atualizar contador
+                
                 $('#cart-count').text(response.totalItens || 0);
                 
-                // Mostrar mensagem de sucesso
+                
                 showToast('success', response.mensagem || 'Produto adicionado ao carrinho!');
                 
-                // Mostrar feedback visual de sucesso
+                
                 btn.attr('class', 'btn btn-success')
                    .html('<i class="fas fa-check"></i> Adicionado');
                 
                 setTimeout(restoreButton, 2000);
             } else {
-                // Mostrar mensagem de erro
+                
                 showToast('error', response.mensagem || 'Erro ao adicionar produto.');
                 
-                // Se não estiver logado, oferecer redirecionamento
+                
                 if (response.mensagem && response.mensagem.toLowerCase().includes('login')) {
                     setTimeout(() => {
                         if (confirm('Você precisa fazer login. Deseja ir para a página de login?')) {
@@ -90,7 +90,7 @@ function adicionarAoCarrinho(produtoId, quantidade = 1) {
     });
 }
 
-// Atualizar quantidade no carrinho
+
 function atualizarQuantidade(itemId, novaQuantidade) {
     if (novaQuantidade < 0) return;
     
@@ -115,7 +115,7 @@ function atualizarQuantidade(itemId, novaQuantidade) {
     });
 }
 
-// Remover item do carrinho
+
 function removerItem(itemId) {
     if (!confirm('Tem certeza que deseja remover este item?')) {
         return;
@@ -136,7 +136,7 @@ function removerItem(itemId) {
     });
 }
 
-// Mostrar toast notification
+
 function showToast(type, message) {
     const toastClass = type === 'success' ? 'alert-success' : 'alert-danger';
     const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
@@ -151,13 +151,13 @@ function showToast(type, message) {
     
     $('body').append(toast);
     
-    // Auto remove after 5 seconds
+    
     setTimeout(() => {
         toast.alert('close');
     }, 5000);
 }
 
-// Busca com autocomplete (simulado)
+
 function initSearchAutocomplete() {
     let searchTimeout;
     
@@ -172,8 +172,8 @@ function initSearchAutocomplete() {
         }
         
         searchTimeout = setTimeout(() => {
-            // Aqui você pode fazer uma chamada AJAX para buscar sugestões
-            // Por enquanto, vamos simular algumas sugestões
+            
+            
             const suggestions = [
                 'iPhone 15',
                 'Samsung Galaxy',
@@ -205,7 +205,7 @@ function showSearchSuggestions(suggestions) {
     
     $('.search-form').addClass('position-relative').append(suggestionsList);
     
-    // Handle suggestion click
+    
     $('.suggestion-item').on('click', function() {
         const text = $(this).text().trim();
         $('.search-input').val(text);
@@ -217,9 +217,9 @@ function hideSearchSuggestions() {
     $('.search-suggestions').remove();
 }
 
-// Filtros de produtos
+
 function initProductFilters() {
-    // Filtro por preço
+    
     $('#filtro-preco').on('change', function() {
         const faixaPreco = $(this).val();
         const url = new URL(window.location);
@@ -233,7 +233,7 @@ function initProductFilters() {
         window.location.href = url.toString();
     });
     
-    // Filtro por categoria
+    
     $('#filtro-categoria').on('change', function() {
         const categoria = $(this).val();
         const url = new URL(window.location);
@@ -248,7 +248,7 @@ function initProductFilters() {
     });
 }
 
-// Galeria de imagens do produto
+
 function initProductGallery() {
     $('.product-thumbnail').on('click', function() {
         const newSrc = $(this).attr('src');
@@ -259,7 +259,7 @@ function initProductGallery() {
     });
 }
 
-// Avaliação com estrelas
+
 function initStarRating() {
     $('.star-rating').on('click', '.star', function() {
         const rating = $(this).data('rating');
@@ -277,7 +277,7 @@ function initStarRating() {
     });
 }
 
-// Simular próximo status do pedido
+
 function simularProximoStatus(pedidoId) {
     $.post('/Conta/SimularProximoStatus', {
         pedidoId: pedidoId
@@ -294,7 +294,7 @@ function simularProximoStatus(pedidoId) {
     });
 }
 
-// Máscara para CEP
+
 function initCEPMask() {
     $('input[name="cep"]').on('input', function() {
         let value = $(this).val().replace(/\D/g, '');
@@ -303,13 +303,13 @@ function initCEPMask() {
     });
 }
 
-// Buscar CEP via API
+
 function buscarCEP(cep) {
     cep = cep.replace(/\D/g, '');
     
     if (cep.length !== 8) return;
     
-    $.get(`https://viacep.com.br/ws/${cep}/json/`)
+    $.get(`https:
         .done(function(data) {
             if (!data.erro) {
                 $('input[name="endereco"]').val(data.logradouro);
@@ -322,16 +322,16 @@ function buscarCEP(cep) {
         });
 }
 
-// Inicializar quando o documento estiver pronto
+
 $(document).ready(function() {
-    // Inicializar funcionalidades
+    
     initSearchAutocomplete();
     initProductFilters();
     initProductGallery();
     initStarRating();
     initCEPMask();
     
-    // Event listeners
+    
     $(document).on('click', '[data-action="add-to-cart"]', function() {
         const produtoId = $(this).data('produto-id');
         const quantidade = parseInt($('#quantidade').val()) || 1;
@@ -369,14 +369,14 @@ $(document).ready(function() {
         }
     });
     
-    // Esconder sugestões quando clicar fora
+    
     $(document).on('click', function(e) {
         if (!$(e.target).closest('.search-form').length) {
             hideSearchSuggestions();
         }
     });
     
-    // Smooth scroll para âncoras
+    
     $('a[href^="#"]').on('click', function(e) {
         e.preventDefault();
         const target = $($(this).attr('href'));
@@ -387,7 +387,7 @@ $(document).ready(function() {
         }
     });
     
-    // Lazy loading para imagens
+    
     if ('IntersectionObserver' in window) {
         const imageObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
@@ -405,7 +405,7 @@ $(document).ready(function() {
         });
     }
     
-    // Animações ao scroll
+    
     const animateOnScroll = () => {
         $('.fade-in-up').each(function() {
             const elementTop = $(this).offset().top;
@@ -418,10 +418,10 @@ $(document).ready(function() {
     };
     
     $(window).on('scroll', animateOnScroll);
-    animateOnScroll(); // Execute na carga inicial
+    animateOnScroll(); 
 });
 
-// Funções utilitárias
+
 const Utils = {
     formatCurrency: function(value) {
         return new Intl.NumberFormat('pt-BR', {

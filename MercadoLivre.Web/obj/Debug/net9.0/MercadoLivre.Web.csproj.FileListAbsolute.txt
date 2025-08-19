@@ -155,5 +155,5 @@
 /Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/MercadoLivre.Web.pdb
 /Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/MercadoLivre.Web.genruntimeconfig.cache
 /Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/ref/MercadoLivre.Web.dll
-/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/8vp97q4u2u-aij98dj8gj.gz
-/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/jjkbuj1rtp-5xd8ygwrdv.gz
+/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/jjkbuj1rtp-axxl6gp9v3.gz
+/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/8vp97q4u2u-w4zvgfrewx.gz

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Início";
 }
 
-<!-- Banner Principal -->
+
 <section class="hero-section mb-4">
     <div class="container">
         <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -58,7 +58,7 @@
     </div>
 </section>
 
-<!-- Categorias Principais -->
+
 @if (ViewBag.Categorias != null && ViewBag.Categorias.Count > 0)
 {
     <section class="categories-section mb-5">
@@ -92,7 +92,7 @@
     </section>
 }
 
-<!-- Produtos em Destaque -->
+
 @if (Model != null && Model.Count() > 0)
 {
     <section class="featured-products mb-5">
@@ -178,7 +178,7 @@
     </section>
 }
 
-<!-- Benefícios -->
+
 <section class="benefits-section bg-white py-5 mb-5">
     <div class="container">
         <div class="row text-center">

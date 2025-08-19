@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "bKrn3P5F0Sbx7tN2B/IQhGcJu9mYzHTuwKsBr45WfVU=",
+  "Hash": "k8gEAm8rRDDq/IByiajIKPPTIsWHYwvbYUIgtrxP18c=",
   "Source": "MercadoLivre.Web",
   "BasePath": "_content/MercadoLivre.Web",
   "Mode": "Default",
@@ -17,12 +17,12 @@
   ],
   "Assets": [
     {
-      "Identity": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/8vp97q4u2u-aij98dj8gj.gz",
+      "Identity": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/8vp97q4u2u-w4zvgfrewx.gz",
       "SourceId": "MercadoLivre.Web",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/MercadoLivre.Web",
-      "RelativePath": "js/mercadolivre#[.{fingerprint=aij98dj8gj}]?.js.gz",
+      "RelativePath": "js/mercadolivre#[.{fingerprint=w4zvgfrewx}]?.js.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -31,19 +31,19 @@
       "RelatedAsset": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/wwwroot/js/mercadolivre.js",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "gweo0s58y7",
-      "Integrity": "kF5pNkEYmryomlbQJ9NGKYoqwgkcw8vZY9w1pFvIP/4=",
+      "Fingerprint": "anjlikcyv4",
+      "Integrity": "SkemfKB7EA20WtLAx76gaJEtoHJiBFRjK5tNIy9Q4RQ=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/wwwroot/js/mercadolivre.js"
     },
     {
-      "Identity": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/jjkbuj1rtp-5xd8ygwrdv.gz",
+      "Identity": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/jjkbuj1rtp-axxl6gp9v3.gz",
       "SourceId": "MercadoLivre.Web",
       "SourceType": "Discovered",
       "ContentRoot": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/MercadoLivre.Web",
-      "RelativePath": "css/mercadolivre#[.{fingerprint=5xd8ygwrdv}]?.css.gz",
+      "RelativePath": "css/mercadolivre#[.{fingerprint=axxl6gp9v3}]?.css.gz",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Alternative",
@@ -52,8 +52,8 @@
       "RelatedAsset": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/wwwroot/css/mercadolivre.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "zrjp46zaru",
-      "Integrity": "XzzJXzPPTNQHZsnD+VW1bOqxU97/yoh0znmWJBS9V/Q=",
+      "Fingerprint": "c2xzeuw6mm",
+      "Integrity": "JBh1lF1gmMwYsxyQq60Uzlesj948u/ljX+PnGvXUeFg=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/wwwroot/css/mercadolivre.css"
@@ -73,8 +73,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "5xd8ygwrdv",
-      "Integrity": "h6W82OSXdpHn+OyN1mbBtaEe/7l6MGJyNKwpRIjBODc=",
+      "Fingerprint": "axxl6gp9v3",
+      "Integrity": "Aou4f6xaUx+BcT/ONjOyzupClSqNOCTqo6b1425B+kI=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/css/mercadolivre.css"
@@ -94,8 +94,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "",
       "AssetTraitValue": "",
-      "Fingerprint": "aij98dj8gj",
-      "Integrity": "AlfqjJQ60iBZaQZRNNaTSytBck13K4tKqOH9AsXqkr8=",
+      "Fingerprint": "w4zvgfrewx",
+      "Integrity": "oJ/yyWN2NZsAIJ/lHzr2AYceliggZmCPFT6EX3R+Y9U=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/js/mercadolivre.js"
@@ -103,13 +103,13 @@
   ],
   "Endpoints": [
     {
-      "Route": "css/mercadolivre.5xd8ygwrdv.css",
-      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/jjkbuj1rtp-5xd8ygwrdv.gz",
+      "Route": "css/mercadolivre.axxl6gp9v3.css",
+      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/jjkbuj1rtp-axxl6gp9v3.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000332778702"
+          "Quality": "0.000364963504"
         }
       ],
       "ResponseHeaders": [
@@ -119,15 +119,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3004"
+          "Value": "2739"
         },
         {
           "Name": "ETag",
-          "Value": "\"XzzJXzPPTNQHZsnD+VW1bOqxU97/yoh0znmWJBS9V/Q=\""
+          "Value": "\"JBh1lF1gmMwYsxyQq60Uzlesj948u/ljX+PnGvXUeFg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 19 Aug 2025 01:39:27 GMT"
+          "Value": "Tue, 19 Aug 2025 02:02:54 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -147,13 +147,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"h6W82OSXdpHn+OyN1mbBtaEe/7l6MGJyNKwpRIjBODc=\""
+          "Value": "W/\"Aou4f6xaUx+BcT/ONjOyzupClSqNOCTqo6b1425B+kI=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "5xd8ygwrdv"
+          "Value": "axxl6gp9v3"
         },
         {
           "Name": "label",
@@ -161,12 +161,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-h6W82OSXdpHn+OyN1mbBtaEe/7l6MGJyNKwpRIjBODc="
+          "Value": "sha256-Aou4f6xaUx+BcT/ONjOyzupClSqNOCTqo6b1425B+kI="
         }
       ]
     },
     {
-      "Route": "css/mercadolivre.5xd8ygwrdv.css",
+      "Route": "css/mercadolivre.axxl6gp9v3.css",
       "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/wwwroot/css/mercadolivre.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -176,7 +176,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "12946"
+          "Value": "12434"
         },
         {
           "Name": "Content-Type",
@@ -184,11 +184,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"h6W82OSXdpHn+OyN1mbBtaEe/7l6MGJyNKwpRIjBODc=\""
+          "Value": "\"Aou4f6xaUx+BcT/ONjOyzupClSqNOCTqo6b1425B+kI=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 19 Aug 2025 01:39:27 GMT"
+          "Value": "Tue, 19 Aug 2025 02:02:54 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -198,7 +198,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "5xd8ygwrdv"
+          "Value": "axxl6gp9v3"
         },
         {
           "Name": "label",
@@ -206,13 +206,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-h6W82OSXdpHn+OyN1mbBtaEe/7l6MGJyNKwpRIjBODc="
+          "Value": "sha256-Aou4f6xaUx+BcT/ONjOyzupClSqNOCTqo6b1425B+kI="
         }
       ]
     },
     {
-      "Route": "css/mercadolivre.5xd8ygwrdv.css.gz",
-      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/jjkbuj1rtp-5xd8ygwrdv.gz",
+      "Route": "css/mercadolivre.axxl6gp9v3.css.gz",
+      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/jjkbuj1rtp-axxl6gp9v3.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -221,7 +221,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3004"
+          "Value": "2739"
         },
         {
           "Name": "Content-Type",
@@ -229,11 +229,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"XzzJXzPPTNQHZsnD+VW1bOqxU97/yoh0znmWJBS9V/Q=\""
+          "Value": "\"JBh1lF1gmMwYsxyQq60Uzlesj948u/ljX+PnGvXUeFg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 19 Aug 2025 01:39:27 GMT"
+          "Value": "Tue, 19 Aug 2025 02:02:54 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -251,7 +251,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "5xd8ygwrdv"
+          "Value": "axxl6gp9v3"
         },
         {
           "Name": "label",
@@ -259,18 +259,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-XzzJXzPPTNQHZsnD+VW1bOqxU97/yoh0znmWJBS9V/Q="
+          "Value": "sha256-JBh1lF1gmMwYsxyQq60Uzlesj948u/ljX+PnGvXUeFg="
         }
       ]
     },
     {
       "Route": "css/mercadolivre.css",
-      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/jjkbuj1rtp-5xd8ygwrdv.gz",
+      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/jjkbuj1rtp-axxl6gp9v3.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000332778702"
+          "Quality": "0.000364963504"
         }
       ],
       "ResponseHeaders": [
@@ -280,15 +280,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3004"
+          "Value": "2739"
         },
         {
           "Name": "ETag",
-          "Value": "\"XzzJXzPPTNQHZsnD+VW1bOqxU97/yoh0znmWJBS9V/Q=\""
+          "Value": "\"JBh1lF1gmMwYsxyQq60Uzlesj948u/ljX+PnGvXUeFg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 19 Aug 2025 01:39:27 GMT"
+          "Value": "Tue, 19 Aug 2025 02:02:54 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -308,13 +308,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"h6W82OSXdpHn+OyN1mbBtaEe/7l6MGJyNKwpRIjBODc=\""
+          "Value": "W/\"Aou4f6xaUx+BcT/ONjOyzupClSqNOCTqo6b1425B+kI=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-h6W82OSXdpHn+OyN1mbBtaEe/7l6MGJyNKwpRIjBODc="
+          "Value": "sha256-Aou4f6xaUx+BcT/ONjOyzupClSqNOCTqo6b1425B+kI="
         }
       ]
     },
@@ -329,7 +329,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "12946"
+          "Value": "12434"
         },
         {
           "Name": "Content-Type",
@@ -337,11 +337,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"h6W82OSXdpHn+OyN1mbBtaEe/7l6MGJyNKwpRIjBODc=\""
+          "Value": "\"Aou4f6xaUx+BcT/ONjOyzupClSqNOCTqo6b1425B+kI=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 19 Aug 2025 01:39:27 GMT"
+          "Value": "Tue, 19 Aug 2025 02:02:54 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -351,13 +351,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-h6W82OSXdpHn+OyN1mbBtaEe/7l6MGJyNKwpRIjBODc="
+          "Value": "sha256-Aou4f6xaUx+BcT/ONjOyzupClSqNOCTqo6b1425B+kI="
         }
       ]
     },
     {
       "Route": "css/mercadolivre.css.gz",
-      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/jjkbuj1rtp-5xd8ygwrdv.gz",
+      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/jjkbuj1rtp-axxl6gp9v3.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -366,7 +366,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3004"
+          "Value": "2739"
         },
         {
           "Name": "Content-Type",
@@ -374,11 +374,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"XzzJXzPPTNQHZsnD+VW1bOqxU97/yoh0znmWJBS9V/Q=\""
+          "Value": "\"JBh1lF1gmMwYsxyQq60Uzlesj948u/ljX+PnGvXUeFg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 19 Aug 2025 01:39:27 GMT"
+          "Value": "Tue, 19 Aug 2025 02:02:54 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -396,18 +396,18 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-XzzJXzPPTNQHZsnD+VW1bOqxU97/yoh0znmWJBS9V/Q="
+          "Value": "sha256-JBh1lF1gmMwYsxyQq60Uzlesj948u/ljX+PnGvXUeFg="
         }
       ]
     },
     {
-      "Route": "js/mercadolivre.aij98dj8gj.js",
-      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/8vp97q4u2u-aij98dj8gj.gz",
+      "Route": "js/mercadolivre.js",
+      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/8vp97q4u2u-w4zvgfrewx.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.000253164557"
+          "Quality": "0.000298329356"
         }
       ],
       "ResponseHeaders": [
@@ -417,19 +417,19 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3949"
+          "Value": "3351"
         },
         {
           "Name": "ETag",
-          "Value": "\"kF5pNkEYmryomlbQJ9NGKYoqwgkcw8vZY9w1pFvIP/4=\""
+          "Value": "\"SkemfKB7EA20WtLAx76gaJEtoHJiBFRjK5tNIy9Q4RQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 19 Aug 2025 01:39:27 GMT"
+          "Value": "Tue, 19 Aug 2025 02:02:29 GMT"
         },
         {
           "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
+          "Value": "no-cache"
         },
         {
           "Name": "Content-Encoding",
@@ -445,26 +445,18 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"AlfqjJQ60iBZaQZRNNaTSytBck13K4tKqOH9AsXqkr8=\""
+          "Value": "W/\"oJ/yyWN2NZsAIJ/lHzr2AYceliggZmCPFT6EX3R+Y9U=\""
         }
       ],
       "EndpointProperties": [
         {
-          "Name": "fingerprint",
-          "Value": "aij98dj8gj"
-        },
-        {
-          "Name": "label",
-          "Value": "js/mercadolivre.js"
-        },
-        {
           "Name": "integrity",
-          "Value": "sha256-AlfqjJQ60iBZaQZRNNaTSytBck13K4tKqOH9AsXqkr8="
+          "Value": "sha256-oJ/yyWN2NZsAIJ/lHzr2AYceliggZmCPFT6EX3R+Y9U="
         }
       ]
     },
     {
-      "Route": "js/mercadolivre.aij98dj8gj.js",
+      "Route": "js/mercadolivre.js",
       "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/wwwroot/js/mercadolivre.js",
       "Selectors": [],
       "ResponseHeaders": [
@@ -474,7 +466,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "13706"
+          "Value": "12465"
         },
         {
           "Name": "Content-Type",
@@ -482,11 +474,156 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"AlfqjJQ60iBZaQZRNNaTSytBck13K4tKqOH9AsXqkr8=\""
+          "Value": "\"oJ/yyWN2NZsAIJ/lHzr2AYceliggZmCPFT6EX3R+Y9U=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 19 Aug 2025 01:39:27 GMT"
+          "Value": "Tue, 19 Aug 2025 02:02:29 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-oJ/yyWN2NZsAIJ/lHzr2AYceliggZmCPFT6EX3R+Y9U="
+        }
+      ]
+    },
+    {
+      "Route": "js/mercadolivre.js.gz",
+      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/8vp97q4u2u-w4zvgfrewx.gz",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3351"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SkemfKB7EA20WtLAx76gaJEtoHJiBFRjK5tNIy9Q4RQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 19 Aug 2025 02:02:29 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-SkemfKB7EA20WtLAx76gaJEtoHJiBFRjK5tNIy9Q4RQ="
+        }
+      ]
+    },
+    {
+      "Route": "js/mercadolivre.w4zvgfrewx.js",
+      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/8vp97q4u2u-w4zvgfrewx.gz",
+      "Selectors": [
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip",
+          "Quality": "0.000298329356"
+        }
+      ],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "3351"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"SkemfKB7EA20WtLAx76gaJEtoHJiBFRjK5tNIy9Q4RQ=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 19 Aug 2025 02:02:29 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Encoding",
+          "Value": "gzip"
+        },
+        {
+          "Name": "Vary",
+          "Value": "Content-Encoding"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "W/\"oJ/yyWN2NZsAIJ/lHzr2AYceliggZmCPFT6EX3R+Y9U=\""
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "w4zvgfrewx"
+        },
+        {
+          "Name": "label",
+          "Value": "js/mercadolivre.js"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-oJ/yyWN2NZsAIJ/lHzr2AYceliggZmCPFT6EX3R+Y9U="
+        }
+      ]
+    },
+    {
+      "Route": "js/mercadolivre.w4zvgfrewx.js",
+      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/wwwroot/js/mercadolivre.js",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "12465"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/javascript"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"oJ/yyWN2NZsAIJ/lHzr2AYceliggZmCPFT6EX3R+Y9U=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Tue, 19 Aug 2025 02:02:29 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -496,7 +633,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "aij98dj8gj"
+          "Value": "w4zvgfrewx"
         },
         {
           "Name": "label",
@@ -504,13 +641,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-AlfqjJQ60iBZaQZRNNaTSytBck13K4tKqOH9AsXqkr8="
+          "Value": "sha256-oJ/yyWN2NZsAIJ/lHzr2AYceliggZmCPFT6EX3R+Y9U="
         }
       ]
     },
     {
-      "Route": "js/mercadolivre.aij98dj8gj.js.gz",
-      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/8vp97q4u2u-aij98dj8gj.gz",
+      "Route": "js/mercadolivre.w4zvgfrewx.js.gz",
+      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/8vp97q4u2u-w4zvgfrewx.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -519,7 +656,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "3949"
+          "Value": "3351"
         },
         {
           "Name": "Content-Type",
@@ -527,11 +664,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"kF5pNkEYmryomlbQJ9NGKYoqwgkcw8vZY9w1pFvIP/4=\""
+          "Value": "\"SkemfKB7EA20WtLAx76gaJEtoHJiBFRjK5tNIy9Q4RQ=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 19 Aug 2025 01:39:27 GMT"
+          "Value": "Tue, 19 Aug 2025 02:02:29 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -549,7 +686,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "aij98dj8gj"
+          "Value": "w4zvgfrewx"
         },
         {
           "Name": "label",
@@ -557,144 +694,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-kF5pNkEYmryomlbQJ9NGKYoqwgkcw8vZY9w1pFvIP/4="
-        }
-      ]
-    },
-    {
-      "Route": "js/mercadolivre.js",
-      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/8vp97q4u2u-aij98dj8gj.gz",
-      "Selectors": [
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip",
-          "Quality": "0.000253164557"
-        }
-      ],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3949"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"kF5pNkEYmryomlbQJ9NGKYoqwgkcw8vZY9w1pFvIP/4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 19 Aug 2025 01:39:27 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "W/\"AlfqjJQ60iBZaQZRNNaTSytBck13K4tKqOH9AsXqkr8=\""
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-AlfqjJQ60iBZaQZRNNaTSytBck13K4tKqOH9AsXqkr8="
-        }
-      ]
-    },
-    {
-      "Route": "js/mercadolivre.js",
-      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/wwwroot/js/mercadolivre.js",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "13706"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"AlfqjJQ60iBZaQZRNNaTSytBck13K4tKqOH9AsXqkr8=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 19 Aug 2025 01:39:27 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-AlfqjJQ60iBZaQZRNNaTSytBck13K4tKqOH9AsXqkr8="
-        }
-      ]
-    },
-    {
-      "Route": "js/mercadolivre.js.gz",
-      "AssetFile": "/Users/fabiolucioribeiro/Portifolio/Projetos/03-aspnet-mvc-ecommerce/MercadoLivre.Web/obj/Debug/net9.0/compressed/8vp97q4u2u-aij98dj8gj.gz",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "3949"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "text/javascript"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"kF5pNkEYmryomlbQJ9NGKYoqwgkcw8vZY9w1pFvIP/4=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Tue, 19 Aug 2025 01:39:27 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "no-cache"
-        },
-        {
-          "Name": "Content-Encoding",
-          "Value": "gzip"
-        },
-        {
-          "Name": "Vary",
-          "Value": "Content-Encoding"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-kF5pNkEYmryomlbQJ9NGKYoqwgkcw8vZY9w1pFvIP/4="
+          "Value": "sha256-SkemfKB7EA20WtLAx76gaJEtoHJiBFRjK5tNIy9Q4RQ="
         }
       ]
     }

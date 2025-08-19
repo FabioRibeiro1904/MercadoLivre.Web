@@ -5,7 +5,7 @@
 }
 
 <div class="container my-4">
-    <!-- Breadcrumb -->
+    
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Início</a></li>
@@ -13,7 +13,7 @@
         </ol>
     </nav>
 
-    <!-- Header da Categoria -->
+    
     <div class="category-header mb-4">
         <div class="row align-items-center">
             <div class="col-md-8">
@@ -36,14 +36,14 @@
     </div>
 
     <div class="row">
-        <!-- Filtros -->
+        
         <div class="col-lg-3 mb-4">
             <div class="card">
                 <div class="card-header">
                     <h6 class="mb-0"><i class="fas fa-filter"></i> Filtros</h6>
                 </div>
                 <div class="card-body">
-                    <!-- Filtro por Preço -->
+                    
                     <div class="filter-group mb-4">
                         <h6 class="filter-title">Preço</h6>
                         <div class="form-check">
@@ -72,7 +72,7 @@
                         </div>
                     </div>
 
-                    <!-- Filtro por Marca -->
+                    
                     <div class="filter-group mb-4">
                         <h6 class="filter-title">Marca</h6>
                         @{
@@ -91,7 +91,7 @@
                         }
                     </div>
 
-                    <!-- Filtro por Condição -->
+                    
                     <div class="filter-group mb-4">
                         <h6 class="filter-title">Condição</h6>
                         <div class="form-check">
@@ -104,7 +104,7 @@
                         </div>
                     </div>
 
-                    <!-- Filtro por Avaliação -->
+                    
                     <div class="filter-group mb-4">
                         <h6 class="filter-title">Avaliação</h6>
                         <div class="form-check">
@@ -135,7 +135,7 @@
                         </div>
                     </div>
 
-                    <!-- Filtro por Desconto -->
+                    
                     <div class="filter-group">
                         <h6 class="filter-title">Desconto</h6>
                         <div class="form-check">
@@ -151,11 +151,11 @@
             </div>
         </div>
 
-        <!-- Produtos -->
+        
         <div class="col-lg-9">
             @if (Model.Produtos.Any())
             {
-                <!-- Grid de Produtos -->
+                
                 <div class="row" id="produtos-grid">
                     @foreach (var produto in Model.Produtos)
                     {
@@ -232,7 +232,7 @@
                     }
                 </div>
 
-                <!-- Paginação -->
+                
                 @if (Model.TotalPaginas > 1)
                 {
                     <nav aria-label="Navegação da categoria">
@@ -269,7 +269,7 @@
             }
             else
             {
-                <!-- Nenhum produto -->
+                
                 <div class="text-center py-5">
                     <i class="fas fa-box-open fa-4x text-muted mb-3"></i>
                     <h4>Nenhum produto encontrado</h4>

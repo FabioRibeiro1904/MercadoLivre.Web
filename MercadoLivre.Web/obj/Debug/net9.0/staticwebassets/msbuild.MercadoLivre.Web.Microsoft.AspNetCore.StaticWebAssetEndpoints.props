@@ -1,28 +1,28 @@
 ﻿<Project>
   <ItemGroup>
-    <StaticWebAssetEndpoint Include="_content/MercadoLivre.Web/css/mercadolivre.5xd8ygwrdv.css">
+    <StaticWebAssetEndpoint Include="_content/MercadoLivre.Web/css/mercadolivre.axxl6gp9v3.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\mercadolivre.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"5xd8ygwrdv"},{"Name":"integrity","Value":"sha256-h6W82OSXdpHn\u002BOyN1mbBtaEe/7l6MGJyNKwpRIjBODc="},{"Name":"label","Value":"_content/MercadoLivre.Web/css/mercadolivre.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"12946"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022h6W82OSXdpHn\u002BOyN1mbBtaEe/7l6MGJyNKwpRIjBODc=\u0022"},{"Name":"Last-Modified","Value":"Tue, 19 Aug 2025 01:39:27 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"axxl6gp9v3"},{"Name":"integrity","Value":"sha256-Aou4f6xaUx\u002BBcT/ONjOyzupClSqNOCTqo6b1425B\u002BkI="},{"Name":"label","Value":"_content/MercadoLivre.Web/css/mercadolivre.css"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"12434"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022Aou4f6xaUx\u002BBcT/ONjOyzupClSqNOCTqo6b1425B\u002BkI=\u0022"},{"Name":"Last-Modified","Value":"Tue, 19 Aug 2025 02:02:54 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/MercadoLivre.Web/css/mercadolivre.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\mercadolivre.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-h6W82OSXdpHn\u002BOyN1mbBtaEe/7l6MGJyNKwpRIjBODc="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"12946"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022h6W82OSXdpHn\u002BOyN1mbBtaEe/7l6MGJyNKwpRIjBODc=\u0022"},{"Name":"Last-Modified","Value":"Tue, 19 Aug 2025 01:39:27 GMT"}]]]></ResponseHeaders>
-    </StaticWebAssetEndpoint>
-    <StaticWebAssetEndpoint Include="_content/MercadoLivre.Web/js/mercadolivre.aij98dj8gj.js">
-      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\mercadolivre.js'))</AssetFile>
-      <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"aij98dj8gj"},{"Name":"integrity","Value":"sha256-AlfqjJQ60iBZaQZRNNaTSytBck13K4tKqOH9AsXqkr8="},{"Name":"label","Value":"_content/MercadoLivre.Web/js/mercadolivre.js"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"13706"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022AlfqjJQ60iBZaQZRNNaTSytBck13K4tKqOH9AsXqkr8=\u0022"},{"Name":"Last-Modified","Value":"Tue, 19 Aug 2025 01:39:27 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-Aou4f6xaUx\u002BBcT/ONjOyzupClSqNOCTqo6b1425B\u002BkI="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"12434"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022Aou4f6xaUx\u002BBcT/ONjOyzupClSqNOCTqo6b1425B\u002BkI=\u0022"},{"Name":"Last-Modified","Value":"Tue, 19 Aug 2025 02:02:54 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/MercadoLivre.Web/js/mercadolivre.js">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\mercadolivre.js'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
-      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-AlfqjJQ60iBZaQZRNNaTSytBck13K4tKqOH9AsXqkr8="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"13706"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022AlfqjJQ60iBZaQZRNNaTSytBck13K4tKqOH9AsXqkr8=\u0022"},{"Name":"Last-Modified","Value":"Tue, 19 Aug 2025 01:39:27 GMT"}]]]></ResponseHeaders>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-oJ/yyWN2NZsAIJ/lHzr2AYceliggZmCPFT6EX3R\u002BY9U="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"12465"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022oJ/yyWN2NZsAIJ/lHzr2AYceliggZmCPFT6EX3R\u002BY9U=\u0022"},{"Name":"Last-Modified","Value":"Tue, 19 Aug 2025 02:02:29 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/MercadoLivre.Web/js/mercadolivre.w4zvgfrewx.js">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\mercadolivre.js'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"w4zvgfrewx"},{"Name":"integrity","Value":"sha256-oJ/yyWN2NZsAIJ/lHzr2AYceliggZmCPFT6EX3R\u002BY9U="},{"Name":"label","Value":"_content/MercadoLivre.Web/js/mercadolivre.js"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"12465"},{"Name":"Content-Type","Value":"text/javascript"},{"Name":"ETag","Value":"\u0022oJ/yyWN2NZsAIJ/lHzr2AYceliggZmCPFT6EX3R\u002BY9U=\u0022"},{"Name":"Last-Modified","Value":"Tue, 19 Aug 2025 02:02:29 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
   </ItemGroup>
 </Project>

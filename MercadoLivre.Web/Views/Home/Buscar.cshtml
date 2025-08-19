@@ -5,7 +5,7 @@
 }
 
 <div class="container my-4">
-    <!-- Breadcrumb -->
+    
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Início</a></li>
@@ -16,14 +16,14 @@
     </nav>
 
     <div class="row">
-        <!-- Filtros -->
+        
         <div class="col-lg-3 mb-4">
             <div class="card">
                 <div class="card-header">
                     <h6 class="mb-0"><i class="fas fa-filter"></i> Filtros</h6>
                 </div>
                 <div class="card-body">
-                    <!-- Filtro por Categoria -->
+                    
                     @if (ViewBag.Categorias != null)
                     {
                         <div class="filter-group mb-4">
@@ -41,7 +41,7 @@
                         </div>
                     }
 
-                    <!-- Filtro por Preço -->
+                    
                     <div class="filter-group mb-4">
                         <h6 class="filter-title">Preço</h6>
                         <select id="filtro-preco" class="form-select">
@@ -55,7 +55,7 @@
                         </select>
                     </div>
 
-                    <!-- Filtro por Condição -->
+                    
                     <div class="filter-group mb-4">
                         <h6 class="filter-title">Condição</h6>
                         <div class="form-check">
@@ -68,7 +68,7 @@
                         </div>
                     </div>
 
-                    <!-- Filtro por Frete -->
+                    
                     <div class="filter-group mb-4">
                         <h6 class="filter-title">Entrega</h6>
                         <div class="form-check">
@@ -77,7 +77,7 @@
                         </div>
                     </div>
 
-                    <!-- Filtro por Avaliação -->
+                    
                     <div class="filter-group">
                         <h6 class="filter-title">Avaliação</h6>
                         <div class="form-check">
@@ -111,9 +111,9 @@
             </div>
         </div>
 
-        <!-- Resultados -->
+        
         <div class="col-lg-9">
-            <!-- Header dos Resultados -->
+            
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
                     @if (!string.IsNullOrEmpty(ViewBag.Termo))
@@ -141,7 +141,7 @@
 
             @if (Model != null && Model.Any())
             {
-                <!-- Grid de Produtos -->
+                
                 <div class="row">
                     @foreach (var produto in Model)
                     {
@@ -214,7 +214,7 @@
                     }
                 </div>
 
-                <!-- Paginação -->
+                
                 @if (ViewBag.TotalPaginas > 1)
                 {
                     <nav aria-label="Navegação da busca">
@@ -251,7 +251,7 @@
             }
             else
             {
-                <!-- Nenhum resultado -->
+                
                 <div class="text-center py-5">
                     <i class="fas fa-search fa-4x text-muted mb-3"></i>
                     <h4>Nenhum produto encontrado</h4>

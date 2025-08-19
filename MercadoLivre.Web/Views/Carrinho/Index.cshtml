@@ -5,7 +5,7 @@
 }
 
 <div class="container my-4">
-    <!-- Breadcrumb -->
+    
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Início</a></li>
@@ -16,7 +16,7 @@
     @if (Model != null && Model.Any())
     {
         <div class="row">
-            <!-- Itens do Carrinho -->
+            
             <div class="col-lg-8">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3><i class="fas fa-shopping-cart"></i> Seu carrinho</h3>
@@ -27,7 +27,7 @@
                 {
                     <div class="cart-item" data-item-id="@item.Id">
                         <div class="row align-items-center">
-                            <!-- Imagem do Produto -->
+                            
                             <div class="col-md-2">
                                 @if (!string.IsNullOrEmpty(item.Produto.ImagemPrincipal))
                                 {
@@ -41,7 +41,7 @@
                                 }
                             </div>
 
-                            <!-- Informações do Produto -->
+                            
                             <div class="col-md-4">
                                 <h6 class="mb-1">
                                     <a href="@Url.Action("Detalhes", "Produtos", new { id = item.Produto.Id })" class="text-decoration-none text-dark">
@@ -60,7 +60,7 @@
                                 </div>
                             </div>
 
-                            <!-- Quantidade -->
+                            
                             <div class="col-md-2">
                                 <label class="form-label small">Quantidade:</label>
                                 <div class="quantity-controls">
@@ -71,13 +71,13 @@
                                 <small class="text-muted">Máx: @item.Produto.Estoque</small>
                             </div>
 
-                            <!-- Preço -->
+                            
                             <div class="col-md-2 text-center">
                                 <div class="fw-bold">R$ @item.PrecoUnitario.ToString("N2")</div>
                                 <small class="text-muted">Unitário</small>
                             </div>
 
-                            <!-- Subtotal -->
+                            
                             <div class="col-md-2 text-center">
                                 <div class="fw-bold text-ml-primary fs-5">R$ @item.SubTotal.ToString("N2")</div>
                                 <small class="text-muted">Subtotal</small>
@@ -93,7 +93,7 @@
                     </div>
                 }
 
-                <!-- Produtos Recomendados -->
+                
                 <div class="mt-5">
                     <h5>Você também pode gostar</h5>
                     <div class="row">
@@ -141,7 +141,7 @@
                 </div>
             </div>
 
-            <!-- Resumo do Pedido -->
+            
             <div class="col-lg-4">
                 <div class="checkout-summary">
                     <h5 class="mb-4"><i class="fas fa-receipt"></i> Resumo do pedido</h5>
@@ -172,7 +172,7 @@
                         </a>
                     </div>
 
-                    <!-- Cupom de Desconto -->
+                    
                     <div class="mt-4">
                         <h6>Cupom de desconto</h6>
                         <div class="input-group">
@@ -181,7 +181,7 @@
                         </div>
                     </div>
 
-                    <!-- Métodos de Pagamento -->
+                    
                     <div class="mt-4">
                         <h6>Métodos de pagamento</h6>
                         <div class="payment-methods">
@@ -200,7 +200,7 @@
                         </div>
                     </div>
 
-                    <!-- Proteção -->
+                    
                     <div class="mt-4 p-3 bg-light rounded">
                         <div class="d-flex align-items-center">
                             <i class="fas fa-shield-alt text-success me-2"></i>
@@ -216,7 +216,7 @@
     }
     else
     {
-        <!-- Carrinho Vazio -->
+        
         <div class="text-center py-5">
             <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
             <h3>Seu carrinho está vazio</h3>
@@ -224,7 +224,7 @@
             
             <div class="row justify-content-center">
                 <div class="col-md-8">
-                    <!-- Categorias Sugeridas -->
+                    
                     <div class="row">
                         <div class="col-md-3 mb-3">
                             <a href="@Url.Action("Categoria", "Produtos", new { categoria = "Eletrônicos" })" class="text-decoration-none">

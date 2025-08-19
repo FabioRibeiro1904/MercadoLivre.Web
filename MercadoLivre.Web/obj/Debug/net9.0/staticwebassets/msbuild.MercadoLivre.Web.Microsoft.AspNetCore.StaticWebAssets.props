@@ -12,8 +12,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>5xd8ygwrdv</Fingerprint>
-      <Integrity>h6W82OSXdpHn+OyN1mbBtaEe/7l6MGJyNKwpRIjBODc=</Integrity>
+      <Fingerprint>axxl6gp9v3</Fingerprint>
+      <Integrity>Aou4f6xaUx+BcT/ONjOyzupClSqNOCTqo6b1425B+kI=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\mercadolivre.css'))</OriginalItemSpec>
@@ -30,8 +30,8 @@
       <RelatedAsset></RelatedAsset>
       <AssetTraitName></AssetTraitName>
       <AssetTraitValue></AssetTraitValue>
-      <Fingerprint>aij98dj8gj</Fingerprint>
-      <Integrity>AlfqjJQ60iBZaQZRNNaTSytBck13K4tKqOH9AsXqkr8=</Integrity>
+      <Fingerprint>w4zvgfrewx</Fingerprint>
+      <Integrity>oJ/yyWN2NZsAIJ/lHzr2AYceliggZmCPFT6EX3R+Y9U=</Integrity>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\js\mercadolivre.js'))</OriginalItemSpec>
