@@ -39,7 +39,6 @@
                                 }
                             </select>
                         </div>
-                    }
 
                     <!-- Filtro por Preço -->
                     <div class="filter-group mb-4">

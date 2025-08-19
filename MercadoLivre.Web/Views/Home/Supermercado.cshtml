@@ -1,0 +1,149 @@
+@model IEnumerable<MercadoLivre.Web.Models.Produto>
+
+@{
+    ViewData["Title"] = "Supermercado";
+}
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center mb-5">
+                <h1 class="display-4">
+                    <i class="fas fa-shopping-basket text-success me-3"></i>
+                    Supermercado
+                </h1>
+                <p class="lead text-muted">Tudo para sua casa e alimentação com entrega rápida!</p>
+            </div>
+
+            <!-- Banner informativo -->
+            <div class="row mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="card border-success">
+                        <div class="card-body text-center">
+                            <i class="fas fa-truck text-success mb-2" style="font-size: 2rem;"></i>
+                            <h6>Entrega Rápida</h6>
+                            <small class="text-muted">Receba em casa em poucas horas</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card border-success">
+                        <div class="card-body text-center">
+                            <i class="fas fa-leaf text-success mb-2" style="font-size: 2rem;"></i>
+                            <h6>Produtos Frescos</h6>
+                            <small class="text-muted">Qualidade garantida</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="card border-success">
+                        <div class="card-body text-center">
+                            <i class="fas fa-percentage text-success mb-2" style="font-size: 2rem;"></i>
+                            <h6>Melhores Preços</h6>
+                            <small class="text-muted">Economia para sua família</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (Model != null && Model.Any())
+            {
+                <div class="row">
+                    @foreach (var produto in Model)
+                    {
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="card product-card h-100 border-0 shadow-sm">
+                                <div class="position-relative">
+                                    @if (produto.Promocao)
+                                    {
+                                        <span class="badge bg-success position-absolute top-0 end-0 m-2">
+                                            <i class="fas fa-star me-1"></i>
+                                            Oferta
+                                        </span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(produto.ImagemPrincipal))
+                                    {
+                                        <img src="@produto.ImagemPrincipal" class="card-img-top" alt="@produto.Nome" style="height: 200px; object-fit: cover;">
+                                    }
+                                    else
+                                    {
+                                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                                            <i class="fas fa-image text-muted fa-3x"></i>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <small class="text-muted mb-1">@produto.Categoria?.Nome</small>
+                                    <h6 class="card-title">@produto.Nome</h6>
+                                    @if (!string.IsNullOrEmpty(produto.Marca))
+                                    {
+                                        <small class="text-success fw-bold">@produto.Marca</small>
+                                    }
+                                    <div class="pricing mt-auto">
+                                        @if (produto.PrecoOriginal.HasValue && produto.PrecoOriginal > produto.Preco)
+                                        {
+                                            <small class="text-muted text-decoration-line-through">R$ @produto.PrecoOriginal?.ToString("N2")</small>
+                                        }
+                                        <h5 class="text-success mb-2">R$ @produto.Preco.ToString("N2")</h5>
+                                        <small class="text-muted">
+                                            <i class="fas fa-box me-1"></i>
+                                            Estoque: @produto.Estoque unidades
+                                        </small>
+                                    </div>
+                                    <div class="d-flex gap-2 mt-3">
+                                        <a asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@produto.Id" 
+                                           class="btn btn-outline-success btn-sm flex-fill">
+                                            Ver detalhes
+                                        </a>
+                                        <button class="btn btn-success btn-sm" 
+                                                onclick="adicionarAoCarrinho(@produto.Id)">
+                                            <i class="fas fa-cart-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="fas fa-shopping-basket fa-4x text-muted mb-3"></i>
+                    <h4 class="text-muted">Produtos em breve</h4>
+                    <p class="text-muted">Estamos preparando nosso supermercado para você!</p>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-success">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Voltar à página inicial
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+.product-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+.product-card:hover .card-title {
+    color: #198754;
+}
+
+.pricing h5 {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.badge {
+    font-size: 0.8rem !important;
+    padding: 0.5rem 0.75rem;
+}
+</style>

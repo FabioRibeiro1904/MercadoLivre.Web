@@ -1,0 +1,195 @@
+@model IEnumerable<MercadoLivre.Web.Models.Produto>
+
+@{
+    ViewData["Title"] = "Moda";
+}
+
+<div class="container py-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="text-center mb-5">
+                <h1 class="display-4">
+                    <i class="fas fa-tshirt text-purple me-3"></i>
+                    Moda
+                </h1>
+                <p class="lead text-muted">Estilo e tendência para todos os momentos!</p>
+            </div>
+
+            <!-- Banner de categorias de moda -->
+            <div class="row mb-4">
+                <div class="col-md-3 mb-3">
+                    <div class="card border-purple">
+                        <div class="card-body text-center">
+                            <i class="fas fa-tshirt text-purple mb-2" style="font-size: 2rem;"></i>
+                            <h6>Roupas</h6>
+                            <small class="text-muted">Para todos os estilos</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card border-purple">
+                        <div class="card-body text-center">
+                            <i class="fas fa-running text-purple mb-2" style="font-size: 2rem;"></i>
+                            <h6>Calçados</h6>
+                            <small class="text-muted">Conforto e estilo</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card border-purple">
+                        <div class="card-body text-center">
+                            <i class="fas fa-gem text-purple mb-2" style="font-size: 2rem;"></i>
+                            <h6>Acessórios</h6>
+                            <small class="text-muted">Complete seu look</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card border-purple">
+                        <div class="card-body text-center">
+                            <i class="fas fa-tags text-purple mb-2" style="font-size: 2rem;"></i>
+                            <h6>Promoções</h6>
+                            <small class="text-muted">Moda com desconto</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @if (Model != null && Model.Any())
+            {
+                <div class="row">
+                    @foreach (var produto in Model)
+                    {
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="card product-card h-100 border-0 shadow-sm">
+                                <div class="position-relative">
+                                    @if (produto.Promocao)
+                                    {
+                                        <span class="badge bg-purple position-absolute top-0 end-0 m-2">
+                                            <i class="fas fa-crown me-1"></i>
+                                            Tendência
+                                        </span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(produto.ImagemPrincipal))
+                                    {
+                                        <img src="@produto.ImagemPrincipal" class="card-img-top" alt="@produto.Nome" style="height: 250px; object-fit: cover;">
+                                    }
+                                    else
+                                    {
+                                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 250px;">
+                                            <i class="fas fa-image text-muted fa-3x"></i>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <small class="text-muted mb-1">@produto.Categoria?.Nome</small>
+                                    <h6 class="card-title">@produto.Nome</h6>
+                                    @if (!string.IsNullOrEmpty(produto.Marca))
+                                    {
+                                        <small class="text-purple fw-bold">@produto.Marca</small>
+                                    }
+                                    <div class="pricing mt-auto">
+                                        @if (produto.PrecoOriginal.HasValue && produto.PrecoOriginal > produto.Preco)
+                                        {
+                                            <small class="text-muted text-decoration-line-through">R$ @produto.PrecoOriginal?.ToString("N2")</small>
+                                        }
+                                        <h5 class="text-purple mb-2">R$ @produto.Preco.ToString("N2")</h5>
+                                        @if (produto.PrecoOriginal.HasValue && produto.PrecoOriginal > produto.Preco)
+                                        {
+                                            <div class="text-success small fw-bold">
+                                                Economia de R$ @((produto.PrecoOriginal - produto.Preco)?.ToString("N2"))
+                                            </div>
+                                        }
+                                    </div>
+                                    <div class="d-flex gap-2 mt-3">
+                                        <a asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@produto.Id" 
+                                           class="btn btn-outline-purple btn-sm flex-fill">
+                                            Ver detalhes
+                                        </a>
+                                        <button class="btn btn-purple btn-sm" 
+                                                onclick="adicionarAoCarrinho(@produto.Id)">
+                                            <i class="fas fa-heart"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="fas fa-tshirt fa-4x text-muted mb-3"></i>
+                    <h4 class="text-muted">Coleção em preparação</h4>
+                    <p class="text-muted">Estamos preparando as melhores tendências para você!</p>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-purple">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Voltar à página inicial
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+.text-purple {
+    color: #6f42c1 !important;
+}
+
+.btn-purple {
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+    color: white;
+}
+
+.btn-purple:hover {
+    background-color: #5a32a3;
+    border-color: #5a32a3;
+    color: white;
+}
+
+.btn-outline-purple {
+    border-color: #6f42c1;
+    color: #6f42c1;
+}
+
+.btn-outline-purple:hover {
+    background-color: #6f42c1;
+    border-color: #6f42c1;
+    color: white;
+}
+
+.border-purple {
+    border-color: #6f42c1 !important;
+}
+
+.bg-purple {
+    background-color: #6f42c1 !important;
+}
+
+.product-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+.product-card:hover .card-title {
+    color: #6f42c1;
+}
+
+.pricing h5 {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.badge {
+    font-size: 0.8rem !important;
+    padding: 0.5rem 0.75rem;
+}
+</style>

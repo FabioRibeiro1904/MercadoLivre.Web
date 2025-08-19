@@ -1,123 +1,227 @@
-﻿@model List<MercadoLivre.Web.Models.Produto>
+@model IEnumerable<Produto>
+
 @{
     ViewData["Title"] = "Início";
-    var categorias = ViewBag.Categorias as List<MercadoLivre.Web.Models.Categoria>;
 }
 
-<div class="bg-ml p-4 rounded mb-4">
-    <div class="row align-items-center">
-        <div class="col-md-8">
-            <h1 class="display-4 text-dark mb-3">Bem-vindo ao MercadoLivre</h1>
-            <p class="lead text-dark">Encontre milhares de produtos com os melhores preços e condições de pagamento.</p>
-            <a asp-controller="Home" asp-action="Buscar" class="btn btn-ml btn-lg">
-                <i class="bi bi-search"></i> Explorar Produtos
-            </a>
-        </div>
-        <div class="col-md-4 text-center">
-            <i class="bi bi-lightning-fill text-primary" style="font-size: 8rem;"></i>
+<!-- Banner Principal -->
+<section class="hero-section mb-4">
+    <div class="container">
+        <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="card border-0">
+                        <div class="card-body text-center py-5" style="background: linear-gradient(135deg, #3483fa 0%, #2968c8 100%); color: white;">
+                            <h2 class="mb-3">🎉 Mega Ofertas do Dia!</h2>
+                            <p class="mb-4">Até 70% de desconto em produtos selecionados</p>
+                            <a href="@Url.Action("Buscar", "Home", new { termo = "oferta" })" class="btn btn-warning btn-lg">
+                                Ver Ofertas
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="card border-0">
+                        <div class="card-body text-center py-5" style="background: linear-gradient(135deg, #00a650 0%, #008a43 100%); color: white;">
+                            <h2 class="mb-3">📱 Eletrônicos</h2>
+                            <p class="mb-4">Os melhores preços em smartphones, notebooks e mais</p>
+                            <a href="@Url.Action("Categoria", "Produtos", new { categoria = "Eletrônicos" })" class="btn btn-light btn-lg">
+                                Explorar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="card border-0">
+                        <div class="card-body text-center py-5" style="background: linear-gradient(135deg, #ff9f00 0%, #e68900 100%); color: white;">
+                            <h2 class="mb-3">🏠 Casa e Decoração</h2>
+                            <p class="mb-4">Transforme sua casa com estilo e economia</p>
+                            <a href="@Url.Action("Categoria", "Produtos", new { categoria = "Casa e Decoração" })" class="btn btn-light btn-lg">
+                                Comprar Agora
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
         </div>
     </div>
-</div>
+</section>
 
-@if (categorias?.Any() == true)
+<!-- Categorias Principais -->
+@if (ViewBag.Categorias != null && ViewBag.Categorias.Count > 0)
 {
-    <div class="mb-5">
-        <h3 class="mb-4 text-center">Categorias em Destaque</h3>
-        <div class="row justify-content-center">
-            @foreach (var categoria in categorias)
-            {
-                <div class="col-auto mb-3">
-                    <a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="@categoria.Nome" class="text-decoration-none">
-                        <div class="card text-center categoria-card">
-                            <div class="card-body">
-                                @if (!string.IsNullOrEmpty(categoria.ImagemUrl))
+    <section class="categories-section mb-5">
+        <div class="container">
+            <h3 class="mb-4">Categorias</h3>
+            <div class="row">
+                @{
+                    var categoryIcons = new Dictionary<string, string>
+                    {
+                        { "Eletrônicos", "fas fa-laptop" },
+                        { "Roupas e Calçados", "fas fa-tshirt" },
+                        { "Casa e Decoração", "fas fa-home" },
+                        { "Esportes e Lazer", "fas fa-dumbbell" },
+                        { "Livros", "fas fa-book" },
+                        { "Beleza e Cuidado", "fas fa-heart" }
+                    };
+                }
+                @foreach (var categoria in ViewBag.Categorias)
+                {
+                    <div class="col-lg-2 col-md-4 col-6 mb-3">
+                        <a href="@Url.Action("Categoria", "Produtos", new { categoria = categoria.Nome })" class="category-item d-block">
+                            <div class="category-icon">
+                                <i class="@(categoryIcons.ContainsKey(categoria.Nome) ? categoryIcons[categoria.Nome] : "fas fa-tag")"></i>
+                            </div>
+                            <div class="category-name">@categoria.Nome</div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+<!-- Produtos em Destaque -->
+@if (Model != null && Model.Count() > 0)
+{
+    <section class="featured-products mb-5">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="mb-0">Ofertas do dia</h3>
+                <a href="@Url.Action("Buscar", "Home", new { termo = "promocao" })" class="text-decoration-none">
+                    Ver todas as ofertas <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="row">
+                @foreach (var produto in Model)
+                {
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                        <div class="card product-card h-100">
+                            <div class="position-relative">
+                                @if (produto.PercentualDesconto.HasValue)
                                 {
-                                    <img src="@categoria.ImagemUrl" class="img-fluid mb-3" alt="@categoria.Nome" style="height: 50px; max-width: 50px;">
+                                    <span class="badge bg-danger position-absolute top-0 end-0 m-2">
+                                        @produto.PercentualDesconto%% OFF
+                                    </span>
+                                }
+                                @if (!string.IsNullOrEmpty(produto.ImagemPrincipal))
+                                {
+                                    <img src="@produto.ImagemPrincipal" class="card-img-top product-image" alt="@produto.Nome">
                                 }
                                 else
                                 {
-                                    <i class="bi bi-grid-3x3-gap-fill text-primary mb-3" style="font-size: 2.5rem;"></i>
+                                    <div class="card-img-top product-image bg-light d-flex align-items-center justify-content-center">
+                                        <i class="fas fa-image fa-3x text-muted"></i>
+                                    </div>
                                 }
-                                <h6 class="card-title">@categoria.Nome</h6>
                             </div>
-                        </div>
-                    </a>
-                </div>
-            }
-        </div>
-    </div>
-}
-
-@if (Model?.Any() == true)
-{
-    <div class="mb-5">
-        <h3 class="mb-4">Produtos em Promoção</h3>
-        <div class="row">
-            @foreach (var produto in Model)
-            {
-                <div class="col-xl-3 col-lg-4 col-md-6 col-12">
-                    <div class="card card-produto shadow-sm">
-                        <a asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@produto.Id" class="text-decoration-none">
-                            @if (!string.IsNullOrEmpty(produto.ImagemPrincipal))
-                            {
-                                <img src="@produto.ImagemPrincipal" class="card-img-top" alt="@produto.Nome">
-                            }
-                            else
-                            {
-                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                                    <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
-                                </div>
-                            }
-                        </a>
-                        <div class="card-body">
-                            <h6 class="card-title mb-2">
-                                <a asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@produto.Id" class="text-decoration-none text-dark">
-                                    @produto.Nome
-                                </a>
-                            </h6>
-                            
-                            <div class="mt-auto">
+                            <div class="card-body d-flex flex-column">
+                                <h6 class="card-title">
+                                    <a href="@Url.Action("Detalhes", "Produtos", new { id = produto.Id })" class="product-title">
+                                        @produto.Nome
+                                    </a>
+                                </h6>
+                                
                                 @if (produto.PrecoOriginal.HasValue)
                                 {
-                                    <span class="desconto mb-1 d-inline-block">@produto.PercentualDesconto% OFF</span>
-                                    <div class="preco-original small">@produto.PrecoOriginal.Value.ToString("C")</div>
+                                    <div class="product-price-original">R$ @produto.PrecoOriginal.Value.ToString("N2")</div>
                                 }
-                                <div class="h5 text-ml mb-2">@produto.PrecoComDesconto.ToString("C")</div>
                                 
-                                @if (produto.TotalAvaliacoes > 0)
+                                <div class="product-price">R$ @produto.Preco.ToString("N2")</div>
+                                
+                                @if (produto.PercentualDesconto.HasValue)
                                 {
-                                    <div class="mb-3">
-                                        @for (int i = 1; i <= 5; i++)
-                                        {
-                                            if (i <= produto.MediaAvaliacoes)
+                                    <div class="product-discount">@produto.PercentualDesconto%% OFF</div>
+                                }
+                                
+                                <div class="product-shipping mt-2">
+                                    <i class="fas fa-truck"></i> Frete grátis
+                                </div>
+                                
+                                @if (produto.MediaAvaliacoes > 0)
+                                {
+                                    <div class="rating mt-2">
+                                        <div class="rating-stars">
+                                            @for (int i = 1; i <= 5; i++)
                                             {
-                                                <i class="bi bi-star-fill text-warning"></i>
+                                                <i class="@(i <= produto.MediaAvaliacoes ? "fas" : "far") fa-star"></i>
                                             }
-                                            else
-                                            {
-                                                <i class="bi bi-star text-muted"></i>
-                                            }
-                                        }
+                                        </div>
                                         <small class="text-muted">(@produto.TotalAvaliacoes)</small>
                                     </div>
                                 }
                                 
-                                <button class="btn btn-ml btn-sm w-100" onclick="adicionarAoCarrinho(@produto.Id)">
-                                    <i class="bi bi-cart-plus"></i> Adicionar ao Carrinho
-                                </button>
+                                <div class="mt-auto pt-3">
+                                    <button class="btn btn-ml-primary w-100" 
+                                            data-action="add-to-cart" 
+                                            data-produto-id="@produto.Id">
+                                        <i class="fas fa-cart-plus"></i> Adicionar ao carrinho
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+<!-- Benefícios -->
+<section class="benefits-section bg-white py-5 mb-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 mb-4">
+                <div class="benefit-item">
+                    <i class="fas fa-shield-alt fa-3x text-ml-success mb-3"></i>
+                    <h5>Compra Protegida</h5>
+                    <p class="text-muted">Receba o produto que está esperando ou devolvemos o dinheiro</p>
                 </div>
-            }
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="benefit-item">
+                    <i class="fas fa-truck fa-3x text-ml-primary mb-3"></i>
+                    <h5>Frete Grátis</h5>
+                    <p class="text-muted">Em milhões de produtos a partir de R$ 79</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="benefit-item">
+                    <i class="fas fa-credit-card fa-3x text-ml-warning mb-3"></i>
+                    <h5>Parcelamento</h5>
+                    <p class="text-muted">Parcele suas compras sem juros no cartão</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="benefit-item">
+                    <i class="fas fa-headset fa-3x text-ml-success mb-3"></i>
+                    <h5>Atendimento</h5>
+                    <p class="text-muted">Estamos aqui para ajudar 24 horas por dia</p>
+                </div>
+            </div>
         </div>
     </div>
-}
-else
-{
-    <div class="text-center py-5">
-        <i class="bi bi-box text-muted" style="font-size: 4rem;"></i>
-        <h4 class="mt-3 text-muted">Nenhum produto em promoção no momento</h4>
-        <p class="text-muted">Volte em breve para conferir nossas ofertas!</p>
-    </div>
+</section>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+=            $('#mainCarousel').carousel({
+                interval: 5000,
+                ride: 'carousel'
+            });
+            $('.product-card').addClass('fade-in-up');
+        });
+    </script>
 }

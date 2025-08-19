@@ -1,125 +1,388 @@
 @model CategoriaViewModel
+
 @{
     ViewData["Title"] = Model.Categoria.Nome;
 }
 
 <div class="container my-4">
-    <div class="row">
-        <div class="col-12">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Início</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">@Model.Categoria.Nome</li>
-                </ol>
-            </nav>
-            
-            <h1 class="mb-4">@Model.Categoria.Nome</h1>
-            <p class="text-muted">@Model.Categoria.Descricao</p>
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Início</a></li>
+            <li class="breadcrumb-item active">@Model.Categoria.Nome</li>
+        </ol>
+    </nav>
+
+    <!-- Header da Categoria -->
+    <div class="category-header mb-4">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h2 class="mb-2">@Model.Categoria.Nome</h2>
+                <p class="text-muted mb-0">@Model.Produtos.Count() produto@(Model.Produtos.Count() != 1 ? "s" : "") encontrado@(Model.Produtos.Count() != 1 ? "s" : "")</p>
+            </div>
+            <div class="col-md-4 text-end">
+                <div class="d-flex align-items-center justify-content-end">
+                    <label for="ordenacao" class="me-2">Ordenar por:</label>
+                    <select id="ordenacao" class="form-select" style="width: auto;">
+                        <option value="relevancia">Mais relevantes</option>
+                        <option value="menor-preco">Menor preço</option>
+                        <option value="maior-preco">Maior preço</option>
+                        <option value="mais-vendidos">Mais vendidos</option>
+                        <option value="melhor-avaliacao">Melhor avaliação</option>
+                    </select>
+                </div>
+            </div>
         </div>
     </div>
 
-    @if (Model.Produtos?.Any() == true)
-    {
-        <div class="row">
-            @foreach (var produto in Model.Produtos)
-            {
-                <div class="col-xl-3 col-lg-4 col-md-6 col-12 mb-4">
-                    <div class="card card-produto shadow-sm h-100">
-                        <a asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@produto.Id" class="text-decoration-none">
-                            @if (!string.IsNullOrEmpty(produto.ImagemPrincipal))
-                            {
-                                <img src="@produto.ImagemPrincipal" class="card-img-top" alt="@produto.Nome" style="height: 200px; object-fit: cover;">
-                            }
-                            else
-                            {
-                                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                                    <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
-                                </div>
-                            }
-                        </a>
-                        <div class="card-body d-flex flex-column">
-                            <h6 class="card-title mb-2">
-                                <a asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@produto.Id" class="text-decoration-none text-dark">
-                                    @produto.Nome
-                                </a>
-                            </h6>
-                            
-                            <div class="mt-auto">
-                                @if (produto.PrecoOriginal.HasValue)
-                                {
-                                    <span class="desconto mb-1 d-inline-block">@produto.PercentualDesconto% OFF</span>
-                                    <div class="preco-original small">@produto.PrecoOriginal.Value.ToString("C")</div>
-                                }
-                                <div class="h5 text-ml mb-3">@produto.PrecoComDesconto.ToString("C")</div>
-                                
-                                @if (produto.TotalAvaliacoes > 0)
-                                {
-                                    <div class="mb-3">
-                                        @for (int i = 1; i <= 5; i++)
-                                        {
-                                            if (i <= produto.MediaAvaliacoes)
-                                            {
-                                                <i class="bi bi-star-fill text-warning"></i>
-                                            }
-                                            else
-                                            {
-                                                <i class="bi bi-star text-muted"></i>
-                                            }
-                                        }
-                                        <small class="text-muted">(@produto.TotalAvaliacoes)</small>
-                                    </div>
-                                }
-                                
-                                <button class="btn btn-ml btn-sm w-100" onclick="adicionarAoCarrinho(@produto.Id)">
-                                    <i class="bi bi-cart-plus"></i> Adicionar ao Carrinho
-                                </button>
+    <div class="row">
+        <!-- Filtros -->
+        <div class="col-lg-3 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0"><i class="fas fa-filter"></i> Filtros</h6>
+                </div>
+                <div class="card-body">
+                    <!-- Filtro por Preço -->
+                    <div class="filter-group mb-4">
+                        <h6 class="filter-title">Preço</h6>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="preco-50">
+                            <label class="form-check-label" for="preco-50">Até R$ 50</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="preco-100">
+                            <label class="form-check-label" for="preco-100">R$ 50 a R$ 100</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="preco-250">
+                            <label class="form-check-label" for="preco-250">R$ 100 a R$ 250</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="preco-500">
+                            <label class="form-check-label" for="preco-500">R$ 250 a R$ 500</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="preco-1000">
+                            <label class="form-check-label" for="preco-1000">R$ 500 a R$ 1.000</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="preco-mais">
+                            <label class="form-check-label" for="preco-mais">Mais de R$ 1.000</label>
+                        </div>
+                    </div>
+
+                    <!-- Filtro por Marca -->
+                    <div class="filter-group mb-4">
+                        <h6 class="filter-title">Marca</h6>
+                        @{
+                            var marcas = Model.Produtos.Where(p => !string.IsNullOrEmpty(p.Marca))
+                                                      .Select(p => p.Marca)
+                                                      .Distinct()
+                                                      .OrderBy(m => m)
+                                                      .Take(10);
+                        }
+                        @foreach (var marca in marcas)
+                        {
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="marca-@marca.Replace(" ", "-")">
+                                <label class="form-check-label" for="marca-@marca.Replace(" ", "-")">@marca</label>
                             </div>
+                        }
+                    </div>
+
+                    <!-- Filtro por Condição -->
+                    <div class="filter-group mb-4">
+                        <h6 class="filter-title">Condição</h6>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="condicao-novo">
+                            <label class="form-check-label" for="condicao-novo">Novo</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="condicao-usado">
+                            <label class="form-check-label" for="condicao-usado">Usado</label>
+                        </div>
+                    </div>
+
+                    <!-- Filtro por Avaliação -->
+                    <div class="filter-group mb-4">
+                        <h6 class="filter-title">Avaliação</h6>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="avaliacao" id="avaliacao-5">
+                            <label class="form-check-label" for="avaliacao-5">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                </span>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="avaliacao" id="avaliacao-4">
+                            <label class="form-check-label" for="avaliacao-4">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                                </span>
+                                ou mais
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="avaliacao" id="avaliacao-3">
+                            <label class="form-check-label" for="avaliacao-3">
+                                <span class="rating-stars">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                                </span>
+                                ou mais
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Filtro por Desconto -->
+                    <div class="filter-group">
+                        <h6 class="filter-title">Desconto</h6>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="desconto-promocao">
+                            <label class="form-check-label" for="desconto-promocao">Em promoção</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="frete-gratis">
+                            <label class="form-check-label" for="frete-gratis">Frete grátis</label>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Produtos -->
+        <div class="col-lg-9">
+            @if (Model.Produtos.Any())
+            {
+                <!-- Grid de Produtos -->
+                <div class="row" id="produtos-grid">
+                    @foreach (var produto in Model.Produtos)
+                    {
+                        <div class="col-lg-4 col-md-6 mb-4 produto-item" 
+                             data-preco="@produto.Preco" 
+                             data-marca="@produto.Marca" 
+                             data-promocao="@produto.Promocao.ToString().ToLower()"
+                             data-avaliacao="@produto.MediaAvaliacoes">
+                            <div class="card product-card h-100">
+                                <div class="position-relative">
+                                    @if (produto.PercentualDesconto.HasValue)
+                                    {
+                                        <span class="badge bg-danger position-absolute top-0 end-0 m-2">
+                                            @produto.PercentualDesconto%% OFF
+                                        </span>
+                                    }
+                                    @if (!string.IsNullOrEmpty(produto.ImagemPrincipal))
+                                    {
+                                        <img src="@produto.ImagemPrincipal" class="card-img-top product-image" alt="@produto.Nome">
+                                    }
+                                    else
+                                    {
+                                        <div class="card-img-top product-image bg-light d-flex align-items-center justify-content-center">
+                                            <i class="fas fa-image fa-3x text-muted"></i>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <h6 class="card-title">
+                                        <a href="@Url.Action("Detalhes", "Produtos", new { id = produto.Id })" class="product-title">
+                                            @produto.Nome
+                                        </a>
+                                    </h6>
+                                    
+                                    @if (produto.PrecoOriginal.HasValue)
+                                    {
+                                        <div class="product-price-original">R$ @produto.PrecoOriginal.Value.ToString("N2")</div>
+                                    }
+                                    
+                                    <div class="product-price">R$ @produto.Preco.ToString("N2")</div>
+                                    
+                                    @if (produto.PercentualDesconto.HasValue)
+                                    {
+                                        <div class="product-discount">@produto.PercentualDesconto%% OFF</div>
+                                    }
+                                    
+                                    <div class="product-shipping mt-2">
+                                        <i class="fas fa-truck"></i> Frete grátis
+                                    </div>
+                                    
+                                    @if (produto.MediaAvaliacoes > 0)
+                                    {
+                                        <div class="rating mt-2">
+                                            <div class="rating-stars">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    <i class="@(i <= produto.MediaAvaliacoes ? "fas" : "far") fa-star"></i>
+                                                }
+                                            </div>
+                                            <small class="text-muted">(@produto.TotalAvaliacoes)</small>
+                                        </div>
+                                    }
+                                    
+                                    <div class="mt-auto pt-3">
+                                        <button class="btn btn-ml-primary w-100" 
+                                                data-action="add-to-cart" 
+                                                data-produto-id="@produto.Id">
+                                            <i class="fas fa-cart-plus"></i> Adicionar ao carrinho
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <!-- Paginação -->
+                @if (Model.TotalPaginas > 1)
+                {
+                    <nav aria-label="Navegação da categoria">
+                        <ul class="pagination justify-content-center">
+                            @if (Model.PaginaAtual > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Categoria", new { categoria = Model.Categoria.Nome, pagina = Model.PaginaAtual - 1 })">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </a>
+                                </li>
+                            }
+
+                            @for (int i = Math.Max(1, Model.PaginaAtual - 2); i <= Math.Min(Model.TotalPaginas, Model.PaginaAtual + 2); i++)
+                            {
+                                <li class="page-item @(i == Model.PaginaAtual ? "active" : "")">
+                                    <a class="page-link" href="@Url.Action("Categoria", new { categoria = Model.Categoria.Nome, pagina = i })">
+                                        @i
+                                    </a>
+                                </li>
+                            }
+
+                            @if (Model.PaginaAtual < Model.TotalPaginas)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" href="@Url.Action("Categoria", new { categoria = Model.Categoria.Nome, pagina = Model.PaginaAtual + 1 })">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </nav>
+                }
+            }
+            else
+            {
+                <!-- Nenhum produto -->
+                <div class="text-center py-5">
+                    <i class="fas fa-box-open fa-4x text-muted mb-3"></i>
+                    <h4>Nenhum produto encontrado</h4>
+                    <p class="text-muted mb-4">Não há produtos disponíveis nesta categoria no momento.</p>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-ml-primary">
+                        <i class="fas fa-home"></i> Voltar ao início
+                    </a>
+                </div>
             }
         </div>
-
-        @if (Model.TotalPaginas > 1)
-        {
-            <nav aria-label="Navegação da página" class="mb-5">
-                <ul class="pagination justify-content-center">
-                    @if (Model.PaginaAtual > 1)
-                    {
-                        <li class="page-item">
-                            <a class="page-link" asp-action="Categoria" asp-route-categoria="@Model.Categoria.Nome" asp-route-pagina="@(Model.PaginaAtual - 1)">Anterior</a>
-                        </li>
-                    }
-
-                    @for (int i = Math.Max(1, Model.PaginaAtual - 2); i <= Math.Min(Model.TotalPaginas, Model.PaginaAtual + 2); i++)
-                    {
-                        <li class="page-item @(i == Model.PaginaAtual ? "active" : "")">
-                            <a class="page-link" asp-action="Categoria" asp-route-categoria="@Model.Categoria.Nome" asp-route-pagina="@i">@i</a>
-                        </li>
-                    }
-
-                    @if (Model.PaginaAtual < Model.TotalPaginas)
-                    {
-                        <li class="page-item">
-                            <a class="page-link" asp-action="Categoria" asp-route-categoria="@Model.Categoria.Nome" asp-route-pagina="@(Model.PaginaAtual + 1)">Próxima</a>
-                        </li>
-                    }
-                </ul>
-            </nav>
-        }
-    }
-    else
-    {
-        <div class="text-center py-5">
-            <i class="bi bi-inbox text-muted" style="font-size: 5rem;"></i>
-            <h3 class="mt-3">Nenhum produto encontrado</h3>
-            <p class="text-muted">Não há produtos disponíveis nesta categoria no momento.</p>
-            <a asp-controller="Home" asp-action="Index" class="btn btn-primary">
-                <i class="bi bi-house"></i> Voltar ao Início
-            </a>
-        </div>
-    }
-    
-    <!-- Espaço adicional para evitar sobreposição do footer -->
-    <div class="mb-5 pb-5"></div>
+    </div>
 </div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Aplicar animação aos produtos
+            $('.product-card').addClass('fade-in-up');
+
+            // Ordenação
+            $('#ordenacao').on('change', function() {
+                const ordenacao = $(this).val();
+                const produtos = $('.produto-item').get();
+                
+                produtos.sort(function(a, b) {
+                    switch(ordenacao) {
+                        case 'menor-preco':
+                            return parseFloat($(a).data('preco')) - parseFloat($(b).data('preco'));
+                        case 'maior-preco':
+                            return parseFloat($(b).data('preco')) - parseFloat($(a).data('preco'));
+                        case 'melhor-avaliacao':
+                            return parseFloat($(b).data('avaliacao')) - parseFloat($(a).data('avaliacao'));
+                        default:
+                            return 0;
+                    }
+                });
+                
+                $('#produtos-grid').html(produtos);
+            });
+
+            // Filtros
+            $('input[type="checkbox"], input[type="radio"]').on('change', function() {
+                aplicarFiltros();
+            });
+
+            function aplicarFiltros() {
+                const precosSelecionados = [];
+                const marcasSelecionadas = [];
+                let promocaoSelecionada = false;
+                let avaliacaoMinima = 0;
+
+                // Coletar filtros de preço
+                if ($('#preco-50').is(':checked')) precosSelecionados.push([0, 50]);
+                if ($('#preco-100').is(':checked')) precosSelecionados.push([50, 100]);
+                if ($('#preco-250').is(':checked')) precosSelecionados.push([100, 250]);
+                if ($('#preco-500').is(':checked')) precosSelecionados.push([250, 500]);
+                if ($('#preco-1000').is(':checked')) precosSelecionados.push([500, 1000]);
+                if ($('#preco-mais').is(':checked')) precosSelecionados.push([1000, 999999]);
+
+                // Coletar filtros de marca
+                $('input[id^="marca-"]:checked').each(function() {
+                    marcasSelecionadas.push($(this).attr('id').replace('marca-', '').replace('-', ' '));
+                });
+
+                // Promoção
+                promocaoSelecionada = $('#desconto-promocao').is(':checked');
+
+                // Avaliação
+                if ($('#avaliacao-5').is(':checked')) avaliacaoMinima = 5;
+                else if ($('#avaliacao-4').is(':checked')) avaliacaoMinima = 4;
+                else if ($('#avaliacao-3').is(':checked')) avaliacaoMinima = 3;
+
+                // Aplicar filtros
+                $('.produto-item').each(function() {
+                    let mostrar = true;
+                    const preco = parseFloat($(this).data('preco'));
+                    const marca = $(this).data('marca');
+                    const promocao = $(this).data('promocao') === 'true';
+                    const avaliacao = parseFloat($(this).data('avaliacao'));
+
+                    // Filtro de preço
+                    if (precosSelecionados.length > 0) {
+                        let precoOk = false;
+                        precosSelecionados.forEach(faixa => {
+                            if (preco >= faixa[0] && preco <= faixa[1]) {
+                                precoOk = true;
+                            }
+                        });
+                        if (!precoOk) mostrar = false;
+                    }
+
+                    // Filtro de marca
+                    if (marcasSelecionadas.length > 0 && !marcasSelecionadas.includes(marca)) {
+                        mostrar = false;
+                    }
+
+                    // Filtro de promoção
+                    if (promocaoSelecionada && !promocao) {
+                        mostrar = false;
+                    }
+
+                    // Filtro de avaliação
+                    if (avaliacaoMinima > 0 && avaliacao < avaliacaoMinima) {
+                        mostrar = false;
+                    }
+
+                    $(this).toggle(mostrar);
+                });
+
+                // Atualizar contador
+                const produtosVisiveis = $('.produto-item:visible').length;
+                $('.category-header p').text(produtosVisiveis + ' produto' + (produtosVisiveis !== 1 ? 's' : '') + ' encontrado' + (produtosVisiveis !== 1 ? 's' : ''));
+            }
+        });
+    </script>
+}

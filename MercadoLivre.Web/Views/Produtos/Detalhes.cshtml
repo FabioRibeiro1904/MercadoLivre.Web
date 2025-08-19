@@ -1,171 +1,359 @@
 @model Produto
+
 @{
     ViewData["Title"] = Model.Nome;
 }
 
 <div class="container my-4">
+    <!-- Breadcrumb -->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Início</a></li>
-            <li class="breadcrumb-item"><a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="@Model.Categoria.Nome">@Model.Categoria.Nome</a></li>
-            <li class="breadcrumb-item active" aria-current="page">@Model.Nome</li>
+            <li class="breadcrumb-item">
+                <a asp-controller="Produtos" asp-action="Categoria" asp-route-categoria="@Model.Categoria.Nome">
+                    @Model.Categoria.Nome
+                </a>
+            </li>
+            <li class="breadcrumb-item active">@Model.Nome</li>
         </ol>
     </nav>
 
     <div class="row">
-        <div class="col-lg-6">
-            <div class="product-images">
+        <!-- Galeria de Imagens -->
+        <div class="col-lg-6 mb-4">
+            <div class="product-gallery">
                 @if (!string.IsNullOrEmpty(Model.ImagemPrincipal))
                 {
-                    <img src="@Model.ImagemPrincipal" class="img-fluid rounded shadow-sm" alt="@Model.Nome">
+                    <img id="main-product-image" src="@Model.ImagemPrincipal" class="img-fluid mb-3" alt="@Model.Nome">
                 }
                 else
                 {
-                    <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height: 400px;">
-                        <i class="bi bi-image text-muted" style="font-size: 5rem;"></i>
+                    <div id="main-product-image" class="bg-light d-flex align-items-center justify-content-center mb-3" style="height: 400px;">
+                        <i class="fas fa-image fa-4x text-muted"></i>
+                    </div>
+                }
+
+                <!-- Thumbnails -->
+                @if (!string.IsNullOrEmpty(Model.ImagensSecundarias))
+                {
+                    <div class="row">
+                        @{
+                            var imagensSecundarias = Model.ImagensSecundarias.Split(',');
+                        }
+                        @foreach (var imagem in imagensSecundarias)
+                        {
+                            <div class="col-3">
+                                <img src="@imagem.Trim()" class="img-fluid product-thumbnail border" alt="@Model.Nome">
+                            </div>
+                        }
                     </div>
                 }
             </div>
         </div>
 
+        <!-- Informações do Produto -->
         <div class="col-lg-6">
             <div class="product-info">
-                <h1 class="mb-3">@Model.Nome</h1>
+                <div class="product-condition">Novo | +@(new Random().Next(100, 999)) vendidos</div>
                 
-                @if (Model.TotalAvaliacoes > 0)
+                <h1>@Model.Nome</h1>
+
+                @if (Model.MediaAvaliacoes > 0)
                 {
-                    <div class="mb-3">
-                        @for (int i = 1; i <= 5; i++)
-                        {
-                            if (i <= Model.MediaAvaliacoes)
+                    <div class="rating mb-3">
+                        <div class="rating-stars d-inline-block">
+                            @for (int i = 1; i <= 5; i++)
                             {
-                                <i class="bi bi-star-fill text-warning"></i>
+                                <i class="@(i <= Model.MediaAvaliacoes ? "fas" : "far") fa-star"></i>
                             }
-                            else
-                            {
-                                <i class="bi bi-star text-muted"></i>
-                            }
-                        }
-                        <span class="ms-2 text-muted">(@Model.TotalAvaliacoes @(Model.TotalAvaliacoes == 1 ? "avaliação" : "avaliações"))</span>
+                        </div>
+                        <span class="ms-2">@Model.MediaAvaliacoes.ToString("F1")</span>
+                        <a href="#avaliacoes" class="ms-2 text-decoration-none">(@Model.TotalAvaliacoes avaliações)</a>
                     </div>
                 }
 
+                <!-- Preço -->
                 <div class="price-section mb-4">
                     @if (Model.PrecoOriginal.HasValue)
                     {
-                        <span class="badge bg-success mb-2">@Model.PercentualDesconto% OFF</span>
-                        <div class="text-muted text-decoration-line-through mb-1">De: @Model.PrecoOriginal.Value.ToString("C")</div>
+                        <div class="product-price-original mb-1">R$ @Model.PrecoOriginal.Value.ToString("N2")</div>
                     }
-                    <div class="h2 text-success mb-0">@Model.PrecoComDesconto.ToString("C")</div>
-                    <small class="text-muted">à vista no PIX ou em até 12x sem juros</small>
+                    <div class="product-price display-5 fw-bold">R$ @Model.Preco.ToString("N2")</div>
+                    @if (Model.PercentualDesconto.HasValue)
+                    {
+                        <div class="product-discount fs-5">@Model.PercentualDesconto%% OFF</div>
+                    }
+                    <div class="text-muted mt-2">em 12x R$ @(Model.Preco / 12).ToString("N2") sem juros</div>
                 </div>
 
-                <div class="product-details mb-4">
-                    <h5>Descrição</h5>
-                    <p>@Model.Descricao</p>
-                </div>
-
-                <div class="purchase-section">
+                <!-- Estoque -->
+                <div class="stock-info mb-4">
                     @if (Model.Estoque > 0)
                     {
-                        <div class="mb-3">
-                            <span class="text-success"><i class="bi bi-check-circle"></i> Estoque disponível (@Model.Estoque unidades)</span>
-                        </div>
-
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-primary btn-lg" onclick="adicionarAoCarrinho(@Model.Id)">
-                                <i class="bi bi-cart-plus"></i> Adicionar ao Carrinho
-                            </button>
-                            <button class="btn btn-success btn-lg" onclick="comprarAgora(@Model.Id)">
-                                <i class="bi bi-lightning"></i> Comprar Agora
-                            </button>
+                        <div class="text-success">
+                            <i class="fas fa-check-circle"></i> 
+                            <strong>Estoque disponível</strong> (@Model.Estoque unidades)
                         </div>
                     }
                     else
                     {
-                        <div class="alert alert-warning">
-                            <i class="bi bi-exclamation-triangle"></i> Produto esgotado
+                        <div class="text-danger">
+                            <i class="fas fa-times-circle"></i> 
+                            <strong>Produto esgotado</strong>
                         </div>
                     }
                 </div>
 
-                <div class="shipping-info mt-4 p-3 bg-light rounded">
-                    <h6><i class="bi bi-truck"></i> Informações de Entrega</h6>
-                    <ul class="list-unstyled mb-0">
-                        <li><i class="bi bi-check text-success"></i> Frete grátis para compras acima de R$ 99,00</li>
-                        <li><i class="bi bi-check text-success"></i> Entrega em 1-3 dias úteis</li>
-                        <li><i class="bi bi-check text-success"></i> Garantia de 30 dias</li>
-                    </ul>
+                <!-- Quantidade e Compra -->
+                @if (Model.Estoque > 0)
+                {
+                    <div class="purchase-section">
+                        <div class="mb-3">
+                            <label for="quantidade" class="form-label">Quantidade:</label>
+                            <div class="quantity-controls">
+                                <button type="button" class="quantity-btn decrement">-</button>
+                                <input type="number" id="quantidade" class="quantity-input" value="1" min="1" max="@Model.Estoque">
+                                <button type="button" class="quantity-btn increment">+</button>
+                                <span class="text-muted ms-2">(@Model.Estoque disponíveis)</span>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-ml-primary btn-lg" 
+                                    data-action="add-to-cart" 
+                                    data-produto-id="@Model.Id">
+                                <i class="fas fa-cart-plus"></i> Adicionar ao carrinho
+                            </button>
+                            <a href="@Url.Action("Index", "Carrinho")" class="btn btn-ml-secondary btn-lg">
+                                <i class="fas fa-credit-card"></i> Comprar agora
+                            </a>
+                        </div>
+                    </div>
+                }
+
+                <!-- Informações de Entrega -->
+                <div class="delivery-info mt-4 p-3 bg-light rounded">
+                    <h6><i class="fas fa-truck"></i> Informações de entrega</h6>
+                    <div class="mb-2">
+                        <i class="fas fa-map-marker-alt text-muted"></i>
+                        <small>Enviar para São Paulo 01310-100</small>
+                        <a href="#" class="ms-2 text-decoration-none small">Alterar</a>
+                    </div>
+                    <div class="mb-2">
+                        <i class="fas fa-check text-success"></i>
+                        <small class="text-success">Frete grátis</small>
+                    </div>
+                    <div>
+                        <i class="fas fa-clock text-muted"></i>
+                        <small>Entrega em 2-5 dias úteis</small>
+                    </div>
+                </div>
+
+                <!-- Vendedor -->
+                <div class="seller-info mt-4 p-3 border rounded">
+                    <h6><i class="fas fa-store"></i> Vendido por MercadoLivre</h6>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-success me-2">
+                            <i class="fas fa-medal"></i> MercadoLíder
+                        </span>
+                        <small class="text-muted">+10.000 vendas</small>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    @if (Model.Avaliacoes?.Any() == true)
-    {
-        <div class="row mt-5">
-            <div class="col-12">
-                <h4>Avaliações dos Clientes</h4>
-                
-                @foreach (var avaliacao in Model.Avaliacoes.Where(a => a.Ativo).OrderByDescending(a => a.DataAvaliacao))
-                {
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <div>
-                                    <strong>@avaliacao.Usuario.Nome</strong>
-                                    <div>
-                                        @for (int i = 1; i <= 5; i++)
-                                        {
-                                            if (i <= avaliacao.Nota)
-                                            {
-                                                <i class="bi bi-star-fill text-warning"></i>
-                                            }
-                                            else
-                                            {
-                                                <i class="bi bi-star text-muted"></i>
-                                            }
-                                        }
-                                    </div>
-                                </div>
-                                <small class="text-muted">@avaliacao.DataAvaliacao.ToString("dd/MM/yyyy")</small>
-                            </div>
-                            @if (!string.IsNullOrEmpty(avaliacao.Comentario))
-                            {
-                                <p class="mb-0">@avaliacao.Comentario</p>
-                            }
-                        </div>
+    <!-- Abas de Informações -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <ul class="nav nav-tabs" id="productTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button">
+                        Descrição
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="specifications-tab" data-bs-toggle="tab" data-bs-target="#specifications" type="button">
+                        Especificações
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button">
+                        Avaliações (@Model.TotalAvaliacoes)
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content" id="productTabsContent">
+                <!-- Descrição -->
+                <div class="tab-pane fade show active" id="description" role="tabpanel">
+                    <div class="p-4">
+                        <h5>Descrição do produto</h5>
+                        <p>@Model.Descricao</p>
+                        
+                        @if (!string.IsNullOrEmpty(Model.Marca))
+                        {
+                            <p><strong>Marca:</strong> @Model.Marca</p>
+                        }
+                        
+                        @if (!string.IsNullOrEmpty(Model.Modelo))
+                        {
+                            <p><strong>Modelo:</strong> @Model.Modelo</p>
+                        }
                     </div>
-                }
+                </div>
+
+                <!-- Especificações -->
+                <div class="tab-pane fade" id="specifications" role="tabpanel">
+                    <div class="p-4">
+                        <h5>Especificações técnicas</h5>
+                        <table class="table">
+                            <tbody>
+                                @if (!string.IsNullOrEmpty(Model.Marca))
+                                {
+                                    <tr>
+                                        <td><strong>Marca</strong></td>
+                                        <td>@Model.Marca</td>
+                                    </tr>
+                                }
+                                @if (!string.IsNullOrEmpty(Model.Modelo))
+                                {
+                                    <tr>
+                                        <td><strong>Modelo</strong></td>
+                                        <td>@Model.Modelo</td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td><strong>Categoria</strong></td>
+                                    <td>@Model.Categoria.Nome</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Condição</strong></td>
+                                    <td>Novo</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Avaliações -->
+                <div class="tab-pane fade" id="reviews" role="tabpanel">
+                    <div class="p-4" id="avaliacoes">
+                        <!-- Adicionar Avaliação -->
+                        @if (Context.Session.GetString("UsuarioNome") != null)
+                        {
+                            <div class="add-review mb-4">
+                                <h5>Avaliar produto</h5>
+                                <form asp-action="AdicionarAvaliacao" method="post">
+                                    <input type="hidden" name="produtoId" value="@Model.Id">
+                                    <div class="mb-3">
+                                        <label class="form-label">Sua avaliação:</label>
+                                        <div class="star-rating">
+                                            <i class="far fa-star star" data-rating="1"></i>
+                                            <i class="far fa-star star" data-rating="2"></i>
+                                            <i class="far fa-star star" data-rating="3"></i>
+                                            <i class="far fa-star star" data-rating="4"></i>
+                                            <i class="far fa-star star" data-rating="5"></i>
+                                            <input type="hidden" name="nota" value="0">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="comentario" class="form-label">Comentário (opcional):</label>
+                                        <textarea name="comentario" id="comentario" class="form-control" rows="3" placeholder="Conte sobre sua experiência com o produto..."></textarea>
+                                    </div>
+                                    <button type="submit" class="btn btn-ml-primary">
+                                        <i class="fas fa-star"></i> Avaliar
+                                    </button>
+                                </form>
+                            </div>
+                            <hr>
+                        }
+
+                        <!-- Lista de Avaliações -->
+                        @if (Model.Avaliacoes.Any())
+                        {
+                            <h5>Avaliações dos clientes</h5>
+                            @foreach (var avaliacao in Model.Avaliacoes.OrderByDescending(a => a.DataAvaliacao))
+                            {
+                                <div class="review-item border-bottom py-3">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <div>
+                                            <strong>@avaliacao.Usuario.Nome</strong>
+                                            <div class="rating-stars">
+                                                @for (int i = 1; i <= 5; i++)
+                                                {
+                                                    <i class="@(i <= avaliacao.Nota ? "fas" : "far") fa-star"></i>
+                                                }
+                                            </div>
+                                        </div>
+                                        <small class="text-muted">@avaliacao.DataAvaliacao.ToString("dd/MM/yyyy")</small>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(avaliacao.Comentario))
+                                    {
+                                        <p class="mb-0">@avaliacao.Comentario</p>
+                                    }
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-center py-4">
+                                <i class="fas fa-star fa-3x text-muted mb-3"></i>
+                                <h5>Nenhuma avaliação ainda</h5>
+                                <p class="text-muted">Seja o primeiro a avaliar este produto!</p>
+                            </div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
-    }
+    </div>
 
-    @if (ViewBag.ProdutosRelacionados is List<Produto> produtosRelacionados && produtosRelacionados.Any())
+    <!-- Produtos Relacionados -->
+    @{
+        var produtosRelacionados = ViewBag.ProdutosRelacionados as List<MercadoLivre.Web.Models.Produto>;
+    }
+    @if (produtosRelacionados != null && produtosRelacionados.Any())
     {
         <div class="row mt-5">
             <div class="col-12">
-                <h4>Produtos Relacionados</h4>
+                <h4 class="mb-4">Produtos relacionados</h4>
                 <div class="row">
                     @foreach (var produto in produtosRelacionados)
                     {
                         <div class="col-lg-3 col-md-6 mb-4">
-                            <div class="card h-100">
-                                <a asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@produto.Id" class="text-decoration-none">
+                            <div class="card product-card h-100">
+                                <div class="position-relative">
+                                    @if (produto.PercentualDesconto.HasValue)
+                                    {
+                                        <span class="badge bg-danger position-absolute top-0 end-0 m-2">
+                                            @produto.PercentualDesconto%% OFF
+                                        </span>
+                                    }
                                     @if (!string.IsNullOrEmpty(produto.ImagemPrincipal))
                                     {
-                                        <img src="@produto.ImagemPrincipal" class="card-img-top" alt="@produto.Nome" style="height: 200px; object-fit: cover;">
+                                        <img src="@produto.ImagemPrincipal" class="card-img-top product-image" alt="@produto.Nome">
                                     }
                                     else
                                     {
-                                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
-                                            <i class="bi bi-image text-muted" style="font-size: 2rem;"></i>
+                                        <div class="card-img-top product-image bg-light d-flex align-items-center justify-content-center">
+                                            <i class="fas fa-image fa-3x text-muted"></i>
                                         </div>
                                     }
-                                </a>
-                                <div class="card-body">
-                                    <h6 class="card-title">@produto.Nome</h6>
-                                    <div class="h6 text-success">@produto.PrecoComDesconto.ToString("C")</div>
+                                </div>
+                                <div class="card-body d-flex flex-column">
+                                    <h6 class="card-title">
+                                        <a href="@Url.Action("Detalhes", "Produtos", new { id = produto.Id })" class="product-title">
+                                            @produto.Nome
+                                        </a>
+                                    </h6>
+                                    <div class="product-price">R$ @produto.Preco.ToString("N2")</div>
+                                    <div class="mt-auto pt-3">
+                                        <button class="btn btn-ml-primary w-100" 
+                                                data-action="add-to-cart" 
+                                                data-produto-id="@produto.Id">
+                                            <i class="fas fa-cart-plus"></i> Adicionar
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -176,11 +364,47 @@
     }
 </div>
 
-<script>
-function comprarAgora(produtoId) {
-    adicionarAoCarrinho(produtoId);
-    setTimeout(() => {
-        window.location.href = '/Carrinho';
-    }, 1000);
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Controle de quantidade
+            $('.quantity-btn').on('click', function() {
+                const input = $('#quantidade');
+                const isIncrement = $(this).hasClass('increment');
+                const currentValue = parseInt(input.val()) || 1;
+                const maxValue = parseInt(input.attr('max'));
+                
+                let newValue;
+                if (isIncrement) {
+                    newValue = Math.min(currentValue + 1, maxValue);
+                } else {
+                    newValue = Math.max(currentValue - 1, 1);
+                }
+                
+                input.val(newValue);
+            });
+
+            // Star rating
+            $('.star').on('click', function() {
+                const rating = $(this).data('rating');
+                $(this).siblings('input[name="nota"]').val(rating);
+                
+                $('.star').each(function(index) {
+                    if (index < rating) {
+                        $(this).removeClass('far').addClass('fas');
+                    } else {
+                        $(this).removeClass('fas').addClass('far');
+                    }
+                });
+            });
+
+            // Product thumbnails
+            $('.product-thumbnail').on('click', function() {
+                const newSrc = $(this).attr('src');
+                $('#main-product-image').attr('src', newSrc);
+                $('.product-thumbnail').removeClass('border-primary');
+                $(this).addClass('border-primary');
+            });
+        });
+    </script>
 }
-</script>

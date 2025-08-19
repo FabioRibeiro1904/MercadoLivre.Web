@@ -1,99 +1,214 @@
-@model List<CarrinhoItem>
+@model IEnumerable<CarrinhoItem>
+
 @{
-    ViewData["Title"] = "Meu Carrinho";
+    ViewData["Title"] = "Carrinho de compras";
 }
 
 <div class="container my-4">
-    <h1 class="mb-4">
-        <i class="bi bi-cart"></i> Meu Carrinho
-    </h1>
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Início</a></li>
+            <li class="breadcrumb-item active">Carrinho</li>
+        </ol>
+    </nav>
 
-    @if (Model?.Any() == true)
+    @if (Model != null && Model.Any())
     {
         <div class="row">
+            <!-- Itens do Carrinho -->
             <div class="col-lg-8">
-                <div class="card">
-                    <div class="card-body">
-                        @foreach (var item in Model)
-                        {
-                            <div class="row align-items-center border-bottom py-3" id="item-@item.Id">
-                                <div class="col-md-2">
-                                    @if (!string.IsNullOrEmpty(item.Produto.ImagemPrincipal))
-                                    {
-                                        <img src="@item.Produto.ImagemPrincipal" class="img-fluid rounded" alt="@item.Produto.Nome" style="max-height: 80px;">
-                                    }
-                                    else
-                                    {
-                                        <div class="bg-light d-flex align-items-center justify-content-center rounded" style="height: 80px;">
-                                            <i class="bi bi-image text-muted"></i>
-                                        </div>
-                                    }
-                                </div>
-                                <div class="col-md-4">
-                                    <h6 class="mb-1">
-                                        <a asp-controller="Produtos" asp-action="Detalhes" asp-route-id="@item.Produto.Id" class="text-decoration-none">
-                                            @item.Produto.Nome
-                                        </a>
-                                    </h6>
-                                    <small class="text-muted">@(item.Produto.Categoria?.Nome ?? "Categoria não informada")</small>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="input-group input-group-sm">
-                                        <button class="btn btn-outline-secondary" type="button" onclick="atualizarQuantidade(@item.Id, @(item.Quantidade - 1))">-</button>
-                                        <input type="text" class="form-control text-center" value="@item.Quantidade" readonly>
-                                        <button class="btn btn-outline-secondary" type="button" onclick="atualizarQuantidade(@item.Id, @(item.Quantidade + 1))">+</button>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3><i class="fas fa-shopping-cart"></i> Seu carrinho</h3>
+                    <span class="text-muted">@Model.Count() item@(Model.Count() != 1 ? "s" : "")</span>
+                </div>
+
+                @foreach (var item in Model)
+                {
+                    <div class="cart-item" data-item-id="@item.Id">
+                        <div class="row align-items-center">
+                            <!-- Imagem do Produto -->
+                            <div class="col-md-2">
+                                @if (!string.IsNullOrEmpty(item.Produto.ImagemPrincipal))
+                                {
+                                    <img src="@item.Produto.ImagemPrincipal" class="img-fluid rounded" alt="@item.Produto.Nome">
+                                }
+                                else
+                                {
+                                    <div class="bg-light rounded d-flex align-items-center justify-content-center" style="height: 80px;">
+                                        <i class="fas fa-image fa-2x text-muted"></i>
                                     </div>
+                                }
+                            </div>
+
+                            <!-- Informações do Produto -->
+                            <div class="col-md-4">
+                                <h6 class="mb-1">
+                                    <a href="@Url.Action("Detalhes", "Produtos", new { id = item.Produto.Id })" class="text-decoration-none text-dark">
+                                        @item.Produto.Nome
+                                    </a>
+                                </h6>
+                                <small class="text-muted">Vendido por MercadoLivre</small>
+                                @if (!string.IsNullOrEmpty(item.Produto.Marca))
+                                {
+                                    <div><small class="text-muted">Marca: @item.Produto.Marca</small></div>
+                                }
+                                <div class="mt-2">
+                                    <span class="badge bg-success">
+                                        <i class="fas fa-truck"></i> Frete grátis
+                                    </span>
                                 </div>
-                                <div class="col-md-2 text-center">
-                                    <strong>@item.SubTotal.ToString("C")</strong>
+                            </div>
+
+                            <!-- Quantidade -->
+                            <div class="col-md-2">
+                                <label class="form-label small">Quantidade:</label>
+                                <div class="quantity-controls">
+                                    <button type="button" class="quantity-btn decrement">-</button>
+                                    <input type="number" class="quantity-input" value="@item.Quantidade" min="1" max="@item.Produto.Estoque">
+                                    <button type="button" class="quantity-btn increment">+</button>
                                 </div>
-                                <div class="col-md-2 text-center">
-                                    <button class="btn btn-sm btn-outline-danger" onclick="removerItem(@item.Id)">
-                                        <i class="bi bi-trash"></i>
+                                <small class="text-muted">Máx: @item.Produto.Estoque</small>
+                            </div>
+
+                            <!-- Preço -->
+                            <div class="col-md-2 text-center">
+                                <div class="fw-bold">R$ @item.PrecoUnitario.ToString("N2")</div>
+                                <small class="text-muted">Unitário</small>
+                            </div>
+
+                            <!-- Subtotal -->
+                            <div class="col-md-2 text-center">
+                                <div class="fw-bold text-ml-primary fs-5">R$ @item.SubTotal.ToString("N2")</div>
+                                <small class="text-muted">Subtotal</small>
+                                <div class="mt-2">
+                                    <button type="button" class="btn btn-link btn-sm text-danger p-0" 
+                                            data-action="remove-item" 
+                                            data-item-id="@item.Id">
+                                        <i class="fas fa-trash"></i> Remover
                                     </button>
                                 </div>
                             </div>
-                        }
+                        </div>
+                    </div>
+                }
+
+                <!-- Produtos Recomendados -->
+                <div class="mt-5">
+                    <h5>Você também pode gostar</h5>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-mobile-alt fa-3x text-muted mb-2"></i>
+                                    <h6>Smartphone Samsung</h6>
+                                    <div class="text-ml-primary fw-bold">R$ 899,90</div>
+                                    <button class="btn btn-outline-primary btn-sm mt-2">Ver produto</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-headphones fa-3x text-muted mb-2"></i>
+                                    <h6>Fone Bluetooth</h6>
+                                    <div class="text-ml-primary fw-bold">R$ 159,90</div>
+                                    <button class="btn btn-outline-primary btn-sm mt-2">Ver produto</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-laptop fa-3x text-muted mb-2"></i>
+                                    <h6>Notebook Dell</h6>
+                                    <div class="text-ml-primary fw-bold">R$ 1.999,90</div>
+                                    <button class="btn btn-outline-primary btn-sm mt-2">Ver produto</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card">
+                                <div class="card-body text-center">
+                                    <i class="fas fa-tshirt fa-3x text-muted mb-2"></i>
+                                    <h6>Camiseta Nike</h6>
+                                    <div class="text-ml-primary fw-bold">R$ 89,90</div>
+                                    <button class="btn btn-outline-primary btn-sm mt-2">Ver produto</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Resumo do Pedido -->
             <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h5 class="mb-0">Resumo do Pedido</h5>
+                <div class="checkout-summary">
+                    <h5 class="mb-4"><i class="fas fa-receipt"></i> Resumo do pedido</h5>
+                    
+                    <div class="summary-line">
+                        <span>Produtos (@Model.Sum(i => i.Quantidade))</span>
+                        <span class="fw-bold">R$ @Model.Sum(i => i.SubTotal).ToString("N2")</span>
                     </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Subtotal (@(Model?.Sum(i => i.Quantidade) ?? 0) itens):</span>
-                            <span>@((Model?.Sum(i => i.SubTotal) ?? 0).ToString("C"))</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Frete:</span>
-                            <span>R$ 15,90</span>
-                        </div>
-                        <hr>
-                        <div class="d-flex justify-content-between mb-3">
-                            <strong>Total:</strong>
-                            <strong class="text-success">@(((Model?.Sum(i => i.SubTotal) ?? 0) + 15.90m).ToString("C"))</strong>
-                        </div>
-
-                        <div class="d-grid gap-2">
-                            <a asp-controller="Carrinho" asp-action="Checkout" class="btn btn-success btn-lg">
-                                <i class="bi bi-credit-card"></i> Finalizar Compra
-                            </a>
-                            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary">
-                                <i class="bi bi-arrow-left"></i> Continuar Comprando
-                            </a>
+                    
+                    <div class="summary-line">
+                        <span>Frete</span>
+                        <span class="text-success fw-bold">Grátis</span>
+                    </div>
+                    
+                    <div class="summary-total">
+                        <div class="summary-line">
+                            <span>Total</span>
+                            <span class="text-ml-primary">R$ @Model.Sum(i => i.SubTotal).ToString("N2")</span>
                         </div>
                     </div>
-                </div>
 
-                <div class="card mt-3">
-                    <div class="card-body text-center">
-                        <i class="bi bi-shield-check text-success" style="font-size: 2rem;"></i>
-                        <h6 class="mt-2">Compra 100% Segura</h6>
-                        <small class="text-muted">Seus dados protegidos e compra garantida</small>
+                    <div class="d-grid gap-2 mt-4">
+                        <a href="@Url.Action("Checkout")" class="btn btn-ml-primary btn-lg">
+                            <i class="fas fa-credit-card"></i> Finalizar compra
+                        </a>
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left"></i> Continuar comprando
+                        </a>
+                    </div>
+
+                    <!-- Cupom de Desconto -->
+                    <div class="mt-4">
+                        <h6>Cupom de desconto</h6>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Digite seu cupom">
+                            <button class="btn btn-outline-secondary" type="button">Aplicar</button>
+                        </div>
+                    </div>
+
+                    <!-- Métodos de Pagamento -->
+                    <div class="mt-4">
+                        <h6>Métodos de pagamento</h6>
+                        <div class="payment-methods">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-credit-card text-muted me-2"></i>
+                                <span class="small">Cartão de crédito em até 12x</span>
+                            </div>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-qrcode text-muted me-2"></i>
+                                <span class="small">PIX - Desconto de 10%</span>
+                            </div>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-barcode text-muted me-2"></i>
+                                <span class="small">Boleto bancário</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Proteção -->
+                    <div class="mt-4 p-3 bg-light rounded">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-shield-alt text-success me-2"></i>
+                            <div>
+                                <div class="fw-bold small">Compra Protegida</div>
+                                <div class="small text-muted">Sua compra é 100% segura</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -101,52 +216,111 @@
     }
     else
     {
+        <!-- Carrinho Vazio -->
         <div class="text-center py-5">
-            <i class="bi bi-cart-x text-muted" style="font-size: 5rem;"></i>
-            <h3 class="mt-3">Seu carrinho está vazio</h3>
-            <p class="text-muted">Que tal dar uma olhada nos nossos produtos?</p>
-            <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg">
-                <i class="bi bi-shop"></i> Ir às Compras
-            </a>
+            <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+            <h3>Seu carrinho está vazio</h3>
+            <p class="text-muted mb-4">Que tal dar uma olhada nas nossas ofertas?</p>
+            
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <!-- Categorias Sugeridas -->
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Categoria", "Produtos", new { categoria = "Eletrônicos" })" class="text-decoration-none">
+                                <div class="card h-100 border-0 bg-light">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-laptop fa-2x text-primary mb-2"></i>
+                                        <h6>Eletrônicos</h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Categoria", "Produtos", new { categoria = "Roupas e Calçados" })" class="text-decoration-none">
+                                <div class="card h-100 border-0 bg-light">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-tshirt fa-2x text-primary mb-2"></i>
+                                        <h6>Roupas</h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Categoria", "Produtos", new { categoria = "Casa e Decoração" })" class="text-decoration-none">
+                                <div class="card h-100 border-0 bg-light">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-home fa-2x text-primary mb-2"></i>
+                                        <h6>Casa</h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <a href="@Url.Action("Categoria", "Produtos", new { categoria = "Esportes e Lazer" })" class="text-decoration-none">
+                                <div class="card h-100 border-0 bg-light">
+                                    <div class="card-body text-center">
+                                        <i class="fas fa-dumbbell fa-2x text-primary mb-2"></i>
+                                        <h6>Esportes</h6>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-4">
+                <a href="@Url.Action("Index", "Home")" class="btn btn-ml-primary btn-lg">
+                    <i class="fas fa-search"></i> Explorar produtos
+                </a>
+            </div>
         </div>
     }
 </div>
 
-<script>
-function atualizarQuantidade(itemId, quantidade) {
-    if (quantidade < 1) {
-        removerItem(itemId);
-        return;
-    }
-
-    $.post('/Carrinho/AtualizarQuantidade', { itemId: itemId, quantidade: quantidade })
-        .done(function(response) {
-            if (response.sucesso) {
-                location.reload();
-            } else {
-                mostrarNotificacao(response.mensagem, 'error');
-            }
-        })
-        .fail(function() {
-            mostrarNotificacao('Erro ao atualizar quantidade', 'error');
-        });
-}
-
-function removerItem(itemId) {
-    if (confirm('Tem certeza que deseja remover este item do carrinho?')) {
-        $.post('/Carrinho/Remover', { itemId: itemId })
-            .done(function(response) {
-                if (response.sucesso) {
-                    $(`#item-${itemId}`).fadeOut(() => {
-                        location.reload();
-                    });
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Atualizar quantidade do item
+            $('.quantity-btn').on('click', function() {
+                const cartItem = $(this).closest('.cart-item');
+                const itemId = cartItem.data('item-id');
+                const input = $(this).siblings('.quantity-input');
+                const currentValue = parseInt(input.val()) || 1;
+                const isIncrement = $(this).hasClass('increment');
+                const maxValue = parseInt(input.attr('max'));
+                
+                let newValue;
+                if (isIncrement) {
+                    newValue = Math.min(currentValue + 1, maxValue);
                 } else {
-                    mostrarNotificacao(response.mensagem, 'error');
+                    newValue = Math.max(currentValue - 1, 1);
                 }
-            })
-            .fail(function() {
-                mostrarNotificacao('Erro ao remover item', 'error');
+                
+                if (newValue !== currentValue) {
+                    input.val(newValue);
+                    atualizarQuantidade(itemId, newValue);
+                }
             });
-    }
+
+            // Detectar mudança manual na quantidade
+            $('.quantity-input').on('change', function() {
+                const cartItem = $(this).closest('.cart-item');
+                const itemId = cartItem.data('item-id');
+                const newValue = parseInt($(this).val()) || 1;
+                const maxValue = parseInt($(this).attr('max'));
+                
+                const validValue = Math.max(1, Math.min(newValue, maxValue));
+                $(this).val(validValue);
+                
+                if (validValue !== newValue) {
+                    atualizarQuantidade(itemId, validValue);
+                }
+            });
+
+            // Aplicar animações
+            $('.cart-item').addClass('fade-in-up');
+        });
+    </script>
 }
-</script>

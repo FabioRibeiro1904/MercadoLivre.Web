@@ -1,0 +1,140 @@
+{
+  "name": "MercadoLivre Clone",
+  "version": "1.0.0",
+  "description": "E-commerce completo inspirado no MercadoLivre, desenvolvido com ASP.NET Core MVC",
+  "author": "Fábio Lúcio Ribeiro",
+  "technologies": {
+    "backend": {
+      "framework": "ASP.NET Core MVC",
+      "version": "9.0",
+      "orm": "Entity Framework Core",
+      "database": "SQLite",
+      "authentication": "Session-based with BCrypt"
+    },
+    "frontend": {
+      "css": "Bootstrap 5.3",
+      "javascript": "jQuery 3.6",
+      "icons": "Font Awesome 6",
+      "design": "Responsive, Mobile-first"
+    }
+  },
+  "features": {
+    "completed": [
+      "Homepage with carousel and featured products",
+      "Product catalog with search and filters",
+      "Product detail pages with image gallery",
+      "Shopping cart with session persistence",
+      "Complete checkout process",
+      "User authentication (login/register)",
+      "User profile management",
+      "Order tracking with visual timeline",
+      "Product review system",
+      "About and Contact pages",
+      "Error handling pages",
+      "Responsive design for all devices",
+      "CSS animations and transitions",
+      "Form validation",
+      "Database seeding with sample data"
+    ],
+    "planned": [
+      "Admin panel for product management",
+      "Real payment gateway integration",
+      "Email notifications",
+      "Advanced search filters",
+      "Wishlist functionality",
+      "Discount coupons system",
+      "Multi-vendor support",
+      "API REST endpoints",
+      "Unit and integration tests"
+    ]
+  },
+  "pages": {
+    "public": [
+      "/ - Homepage",
+      "/produtos - Product catalog",
+      "/produtos/{id} - Product details",
+      "/produtos/categoria/{categoria} - Category products",
+      "/produtos/buscar - Search results",
+      "/sobre - About page",
+      "/contato - Contact page"
+    ],
+    "authenticated": [
+      "/carrinho - Shopping cart",
+      "/carrinho/checkout - Checkout process",
+      "/conta/perfil - User profile",
+      "/conta/meus-pedidos - Order history"
+    ],
+    "auth": [
+      "/conta/login - User login",
+      "/conta/registro - User registration"
+    ]
+  },
+  "database": {
+    "provider": "SQLite",
+    "migrations": "Auto-applied on startup",
+    "seeding": "Sample data created automatically",
+    "models": [
+      "Usuario (User)",
+      "Produto (Product)", 
+      "Categoria (Category)",
+      "Pedido (Order)",
+      "PedidoItem (Order Item)",
+      "CarrinhoItem (Cart Item)",
+      "Avaliacao (Review)"
+    ]
+  },
+  "styling": {
+    "theme": "MercadoLivre inspired",
+    "colors": {
+      "primary": "#FFE600 (MercadoLivre Yellow)",
+      "secondary": "#3483FA (MercadoLivre Blue)",
+      "success": "#00A650",
+      "danger": "#DC3545",
+      "warning": "#FFC107",
+      "info": "#17A2B8"
+    },
+    "components": [
+      "Product cards with hover effects",
+      "Responsive navigation bar",
+      "Timeline for order tracking",
+      "Image carousels",
+      "Form validation feedback",
+      "Loading spinners",
+      "Toast notifications",
+      "Modal dialogs"
+    ]
+  },
+  "performance": {
+    "optimizations": [
+      "CSS and JS minification",
+      "Image lazy loading",
+      "Database query optimization",
+      "Session-based cart storage",
+      "Responsive images",
+      "CSS animations using transforms"
+    ]
+  },
+  "security": {
+    "features": [
+      "Password hashing with BCrypt",
+      "CSRF protection",
+      "Input validation and sanitization",
+      "Secure session management",
+      "SQL injection prevention (EF Core)",
+      "XSS protection"
+    ]
+  },
+  "deployment": {
+    "requirements": [
+      ".NET 9.0 Runtime",
+      "SQLite support",
+      "HTTPS configuration"
+    ],
+    "commands": [
+      "dotnet restore",
+      "dotnet ef database update",
+      "dotnet publish -c Release",
+      "dotnet run"
+    ]
+  }
+}

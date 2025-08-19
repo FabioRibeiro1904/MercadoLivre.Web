@@ -1,198 +1,428 @@
-@model List<Pedido>
+@model IEnumerable<Pedido>
+
 @{
     ViewData["Title"] = "Meus Pedidos";
 }
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>
-            <i class="bi bi-bag"></i> Meus Pedidos
-        </h1>
-        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary">
-            <i class="bi bi-arrow-left"></i> Voltar ao Início
-        </a>
-    </div>
+<div class="container my-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Início</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Conta" asp-action="Perfil">Minha Conta</a></li>
+            <li class="breadcrumb-item active">Meus Pedidos</li>
+        </ol>
+    </nav>
 
-    @if (Model?.Any() == true)
-    {
-        <div class="row">
-            @foreach (var pedido in Model.OrderByDescending(p => p.DataPedido))
+    <div class="row">
+        <!-- Menu Lateral -->
+        <div class="col-lg-3">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">
+                        <i class="fas fa-user-circle fa-lg me-2"></i>
+                        @Context.Session.GetString("UsuarioNome")
+                    </h6>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a asp-action="Perfil" class="list-group-item list-group-item-action">
+                        <i class="fas fa-user me-2"></i> Dados pessoais
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action active">
+                        <i class="fas fa-shopping-bag me-2"></i> Meus pedidos
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-heart me-2"></i> Lista de desejos
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-map-marker-alt me-2"></i> Endereços
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-credit-card me-2"></i> Cartões
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <i class="fas fa-bell me-2"></i> Notificações
+                    </a>
+                    <a asp-action="Logout" class="list-group-item list-group-item-action text-danger">
+                        <i class="fas fa-sign-out-alt me-2"></i> Sair
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <div class="col-lg-9">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3><i class="fas fa-shopping-bag"></i> Meus pedidos</h3>
+                <div>
+                    <button class="btn btn-outline-secondary btn-sm me-2">
+                        <i class="fas fa-filter"></i> Filtrar
+                    </button>
+                    <button class="btn btn-outline-secondary btn-sm">
+                        <i class="fas fa-download"></i> Exportar
+                    </button>
+                </div>
+            </div>
+
+            @if (Model != null && Model.Any())
             {
-                <div class="col-12 mb-4">
-                    <div class="card shadow-sm">
-                        <div class="card-header d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6 class="mb-0">
-                                    <strong>Pedido #@pedido.NumeroPedido</strong>
-                                </h6>
-                                <small class="text-muted">
-                                    Realizado em @pedido.DataPedido.ToString("dd/MM/yyyy 'às' HH:mm")
-                                </small>
-                            </div>
-                            <div class="text-end">
-                                @{
-                                    var statusClass = pedido.Status switch
-                                    {
-                                        StatusPedido.Pendente => "bg-warning",
-                                        StatusPedido.Confirmado => "bg-primary",
-                                        StatusPedido.Enviado => "bg-info",
-                                        StatusPedido.Entregue => "bg-success",
-                                        StatusPedido.Cancelado => "bg-danger",
-                                        _ => "bg-secondary"
-                                    };
-                                }
-                                <span class="badge @statusClass">@pedido.Status</span>
+                <!-- Filtros Rápidos -->
+                <div class="mb-4">
+                    <div class="btn-group" role="group">
+                        <input type="radio" class="btn-check" name="filtro-status" id="todos" checked>
+                        <label class="btn btn-outline-primary" for="todos">Todos</label>
+
+                        <input type="radio" class="btn-check" name="filtro-status" id="confirmado">
+                        <label class="btn btn-outline-primary" for="confirmado">Confirmados</label>
+
+                        <input type="radio" class="btn-check" name="filtro-status" id="preparando">
+                        <label class="btn btn-outline-primary" for="preparando">Preparando</label>
+
+                        <input type="radio" class="btn-check" name="filtro-status" id="enviado">
+                        <label class="btn btn-outline-primary" for="enviado">Enviados</label>
+
+                        <input type="radio" class="btn-check" name="filtro-status" id="entregue">
+                        <label class="btn btn-outline-primary" for="entregue">Entregues</label>
+                    </div>
+                </div>
+
+                <!-- Lista de Pedidos -->
+                @foreach (var pedido in Model.OrderByDescending(p => p.DataPedido))
+                {
+                    <div class="card mb-4 pedido-item" data-status="@pedido.Status.ToString().ToLower()">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col-md-4">
+                                    <h6 class="mb-0">Pedido #@pedido.NumeroPedido</h6>
+                                    <small class="text-muted">@pedido.DataPedido.ToString("dd/MM/yyyy HH:mm")</small>
+                                </div>
+                                <div class="col-md-4 text-center">
+                                    <span class="badge 
+                                        @(pedido.Status == StatusPedido.Confirmado ? "bg-info" : 
+                                          pedido.Status == StatusPedido.Preparando ? "bg-warning" : 
+                                          pedido.Status == StatusPedido.Enviado ? "bg-primary" : 
+                                          pedido.Status == StatusPedido.Entregue ? "bg-success" : "bg-secondary")">
+                                        @pedido.StatusDescricao
+                                    </span>
+                                </div>
+                                <div class="col-md-4 text-end">
+                                    <div class="fw-bold text-ml-primary">R$ @pedido.ValorTotalComFrete.ToString("N2")</div>
+                                    <small class="text-muted">@pedido.FormaPagamento</small>
+                                </div>
                             </div>
                         </div>
                         <div class="card-body">
+                            <!-- Itens do Pedido -->
                             <div class="row">
                                 <div class="col-md-8">
-                                    <h6 class="text-muted mb-2">Itens do Pedido:</h6>
-                                    @if (pedido.Itens?.Any() == true)
+                                    <h6>Itens do pedido:</h6>
+                                    @foreach (var item in pedido.Itens)
                                     {
-                                        @foreach (var item in pedido.Itens)
-                                        {
-                                            <div class="d-flex align-items-center mb-2">
-                                                <small class="me-2">
-                                                    <strong>@item.Quantidade x</strong> @item.NomeProduto
-                                                </small>
-                                                <small class="ms-auto text-muted">
-                                                    @item.PrecoUnitario.ToString("C")
-                                                </small>
+                                        <div class="d-flex align-items-center mb-2">
+                                            <div class="me-3">
+                                                <i class="fas fa-box text-muted"></i>
                                             </div>
-                                        }
-                                    }
-                                    
-                                    @if (!string.IsNullOrEmpty(pedido.EnderecoEntrega))
-                                    {
-                                        <div class="mt-3">
-                                            <h6 class="text-muted mb-1">Endereço de Entrega:</h6>
-                                            <small>
-                                                @pedido.EnderecoEntrega<br>
-                                                @pedido.CidadeEntrega/@pedido.EstadoEntrega - CEP: @pedido.CEPEntrega
-                                            </small>
+                                            <div class="flex-grow-1">
+                                                <div class="fw-bold">@item.NomeProduto</div>
+                                                <small class="text-muted">Quantidade: @item.Quantidade | Preço: R$ @item.PrecoUnitario.ToString("N2")</small>
+                                            </div>
+                                            <div class="text-end">
+                                                <div class="fw-bold">R$ @item.SubTotal.ToString("N2")</div>
+                                            </div>
                                         </div>
                                     }
                                 </div>
-                                <div class="col-md-4 text-md-end">
-                                    <div class="mb-2">
-                                        <small class="text-muted">Forma de Pagamento:</small><br>
-                                        <small>
-                                            @(pedido.FormaPagamento switch
-                                            {
-                                                FormaPagamento.CartaoCredito => "Cartão de Crédito",
-                                                FormaPagamento.CartaoDebito => "Cartão de Débito",
-                                                FormaPagamento.Pix => "PIX",
-                                                FormaPagamento.Boleto => "Boleto Bancário",
-                                                _ => "Não informado"
-                                            })
-                                        </small>
-                                    </div>
-                                    
-                                    @if (pedido.ValorFrete > 0)
-                                    {
-                                        <div class="mb-1">
-                                            <small class="text-muted">Frete: @pedido.ValorFrete.ToString("C")</small>
+                                <div class="col-md-4">
+                                    <!-- Timeline do Pedido -->
+                                    <h6>Status do pedido:</h6>
+                                    <div class="timeline">
+                                        <div class="timeline-item @(pedido.Status >= StatusPedido.Confirmado ? "completed" : "")">
+                                            <div class="timeline-marker">
+                                                <i class="fas fa-check"></i>
+                                            </div>
+                                            <div class="timeline-content">
+                                                <h6>Confirmado</h6>
+                                                @if (pedido.DataConfirmacao.HasValue)
+                                                {
+                                                    <small>@pedido.DataConfirmacao.Value.ToString("dd/MM HH:mm")</small>
+                                                }
+                                            </div>
                                         </div>
-                                    }
-                                    
-                                    <div class="mb-3">
-                                        <strong class="text-success">
-                                            Total: @((pedido.ValorTotal + pedido.ValorFrete).ToString("C"))
-                                        </strong>
+                                        
+                                        <div class="timeline-item @(pedido.Status >= StatusPedido.Preparando ? "completed" : "")">
+                                            <div class="timeline-marker">
+                                                <i class="fas fa-box"></i>
+                                            </div>
+                                            <div class="timeline-content">
+                                                <h6>Preparando</h6>
+                                                @if (pedido.Status >= StatusPedido.Preparando)
+                                                {
+                                                    <small>Em preparação</small>
+                                                }
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="timeline-item @(pedido.Status >= StatusPedido.Enviado ? "completed" : "")">
+                                            <div class="timeline-marker">
+                                                <i class="fas fa-truck"></i>
+                                            </div>
+                                            <div class="timeline-content">
+                                                <h6>Enviado</h6>
+                                                @if (pedido.DataEnvio.HasValue)
+                                                {
+                                                    <small>@pedido.DataEnvio.Value.ToString("dd/MM HH:mm")</small>
+                                                    @if (!string.IsNullOrEmpty(pedido.CodigoRastreamento))
+                                                    {
+                                                        <div><small>Código: @pedido.CodigoRastreamento</small></div>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="timeline-item @(pedido.Status >= StatusPedido.Entregue ? "completed" : "")">
+                                            <div class="timeline-marker">
+                                                <i class="fas fa-home"></i>
+                                            </div>
+                                            <div class="timeline-content">
+                                                <h6>Entregue</h6>
+                                                @if (pedido.DataEntrega.HasValue)
+                                                {
+                                                    <small>@pedido.DataEntrega.Value.ToString("dd/MM HH:mm")</small>
+                                                }
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+                            </div>
 
-                                    @if (pedido.Status == StatusPedido.Pendente)
-                                    {
-                                        <button class="btn btn-sm btn-outline-danger" onclick="cancelarPedido('@pedido.NumeroPedido')">
-                                            <i class="bi bi-x-circle"></i> Cancelar
-                                        </button>
-                                    }
-                                    
-                                    @if (pedido.Status == StatusPedido.Confirmado || pedido.Status == StatusPedido.Preparando || pedido.Status == StatusPedido.Enviado)
-                                    {
-                                        <button class="btn btn-sm btn-primary" onclick="avancarStatus(@pedido.Id)" id="btn-@pedido.Id">
-                                            <i class="bi bi-arrow-right-circle"></i> Simular Próximo Status
-                                        </button>
-                                    }
-                                    
-                                    @if (!string.IsNullOrEmpty(pedido.CodigoRastreamento))
-                                    {
-                                        <div class="mt-2">
-                                            <small class="text-muted">Código de Rastreamento:</small><br>
-                                            <small class="fw-bold">@pedido.CodigoRastreamento</small>
-                                        </div>
-                                    }
+                            <!-- Endereço de Entrega -->
+                            <div class="mt-3 p-3 bg-light rounded">
+                                <h6><i class="fas fa-map-marker-alt"></i> Endereço de entrega:</h6>
+                                <p class="mb-0">
+                                    @pedido.EnderecoEntrega<br>
+                                    @pedido.CidadeEntrega - @pedido.EstadoEntrega<br>
+                                    CEP: @pedido.CEPEntrega
+                                </p>
+                            </div>
+
+                            <!-- Ações -->
+                            <div class="mt-3 d-flex justify-content-between align-items-center">
+                                <div>
                                     @if (pedido.Status == StatusPedido.Entregue)
                                     {
-                                        <a href="#" class="btn btn-sm btn-outline-primary">
-                                            <i class="bi bi-star"></i> Avaliar
-                                        </a>
+                                        <button class="btn btn-outline-warning btn-sm me-2">
+                                            <i class="fas fa-star"></i> Avaliar compra
+                                        </button>
+                                    }
+                                    @if (pedido.Status == StatusPedido.Enviado && !string.IsNullOrEmpty(pedido.CodigoRastreamento))
+                                    {
+                                        <button class="btn btn-outline-info btn-sm me-2">
+                                            <i class="fas fa-search"></i> Rastrear pedido
+                                        </button>
+                                    }
+                                    <button class="btn btn-outline-secondary btn-sm me-2">
+                                        <i class="fas fa-download"></i> Baixar nota
+                                    </button>
+                                    <button class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-eye"></i> Ver detalhes
+                                    </button>
+                                </div>
+                                <div>
+                                    @if (pedido.Status != StatusPedido.Entregue && pedido.Status != StatusPedido.Cancelado)
+                                    {
+                                        <button class="btn btn-warning btn-sm" 
+                                                data-action="simular-status" 
+                                                data-pedido-id="@pedido.Id">
+                                            <i class="fas fa-forward"></i> Simular próximo status
+                                        </button>
                                     }
                                 </div>
                             </div>
                         </div>
                     </div>
+                }
+
+                <!-- Paginação (se necessária) -->
+                <nav aria-label="Navegação dos pedidos">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <span class="page-link">Anterior</span>
+                        </li>
+                        <li class="page-item active">
+                            <span class="page-link">1</span>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">2</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Próximo</a>
+                        </li>
+                    </ul>
+                </nav>
+            }
+            else
+            {
+                <!-- Nenhum Pedido -->
+                <div class="text-center py-5">
+                    <i class="fas fa-shopping-bag fa-4x text-muted mb-3"></i>
+                    <h4>Você ainda não fez nenhum pedido</h4>
+                    <p class="text-muted mb-4">Que tal explorar nossos produtos e fazer sua primeira compra?</p>
+                    
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <!-- Sugestões de Categorias -->
+                            <div class="row">
+                                <div class="col-md-3 mb-3">
+                                    <a href="@Url.Action("Categoria", "Produtos", new { categoria = "Eletrônicos" })" class="text-decoration-none">
+                                        <div class="card border-0 bg-light h-100">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-laptop fa-2x text-primary mb-2"></i>
+                                                <h6>Eletrônicos</h6>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <a href="@Url.Action("Categoria", "Produtos", new { categoria = "Roupas e Calçados" })" class="text-decoration-none">
+                                        <div class="card border-0 bg-light h-100">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-tshirt fa-2x text-primary mb-2"></i>
+                                                <h6>Roupas</h6>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <a href="@Url.Action("Categoria", "Produtos", new { categoria = "Casa e Decoração" })" class="text-decoration-none">
+                                        <div class="card border-0 bg-light h-100">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-home fa-2x text-primary mb-2"></i>
+                                                <h6>Casa</h6>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <a href="@Url.Action("Categoria", "Produtos", new { categoria = "Esportes e Lazer" })" class="text-decoration-none">
+                                        <div class="card border-0 bg-light h-100">
+                                            <div class="card-body text-center">
+                                                <i class="fas fa-dumbbell fa-2x text-primary mb-2"></i>
+                                                <h6>Esportes</h6>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4">
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-ml-primary btn-lg">
+                            <i class="fas fa-search"></i> Explorar produtos
+                        </a>
+                    </div>
                 </div>
             }
         </div>
-
-        <div class="text-center mt-4">
-            <nav aria-label="Navegação de pedidos">
-                <!-- Aqui poderia ser implementada paginação se necessário -->
-            </nav>
-        </div>
-    }
-    else
-    {
-        <div class="text-center py-5">
-            <i class="bi bi-bag-x text-muted" style="font-size: 5rem;"></i>
-            <h3 class="mt-3">Você ainda não fez nenhum pedido</h3>
-            <p class="text-muted">Que tal começar suas compras agora?</p>
-            <a asp-controller="Home" asp-action="Index" class="btn btn-primary btn-lg">
-                <i class="bi bi-shop"></i> Ir às Compras
-            </a>
-        </div>
-    }
+    </div>
 </div>
 
-<script>
-        function cancelarPedido(pedidoId) {
-            if (confirm('Tem certeza que deseja cancelar este pedido?')) {
-                alert('Aqui seria implementada a funcionalidade de cancelamento');
-            }
-        }
-        
-        function avancarStatus(pedidoId) {
-            const botao = document.getElementById(`btn-${pedidoId}`);
-            if (botao) {
-                botao.disabled = true;
-                botao.innerHTML = '<i class="bi bi-hourglass-split"></i> Processando...';
-            }
-            
-            $.ajax({
-                url: '@Url.Action("SimularProximoStatus", "Conta")',
-                type: 'POST',
-                data: { pedidoId: pedidoId },
-                success: function(response) {
-                    if (response.sucesso) {
-                        alert(`Status atualizado para: ${response.novoStatus}`);
-                        location.reload();
-                    } else {
-                        alert(response.mensagem);
-                        if (botao) {
-                            botao.disabled = false;
-                            botao.innerHTML = '<i class="bi bi-arrow-right-circle"></i> Simular Próximo Status';
-                        }
-                    }
-                },
-                error: function() {
-                    alert('Erro ao atualizar status do pedido.');
-                    if (botao) {
-                        botao.disabled = false;
-                        botao.innerHTML = '<i class="bi bi-arrow-right-circle"></i> Simular Próximo Status';
-                    }
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Filtros de status
+            $('input[name="filtro-status"]').on('change', function() {
+                const status = $(this).attr('id');
+                
+                if (status === 'todos') {
+                    $('.pedido-item').show();
+                } else {
+                    $('.pedido-item').hide();
+                    $(`.pedido-item[data-status="${status}"]`).show();
                 }
             });
+
+            // Animar timeline
+            $('.timeline-item.completed').each(function(index) {
+                $(this).delay(index * 200).queue(function() {
+                    $(this).addClass('animate');
+                    $(this).dequeue();
+                });
+            });
+        });
+    </script>
+
+    <style>
+        .timeline {
+            position: relative;
+            padding: 0;
+            list-style: none;
         }
-</script>
+
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item.completed {
+            opacity: 1;
+        }
+
+        .timeline-item.completed.animate {
+            transform: translateX(5px);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 25px;
+            height: 100%;
+            width: 2px;
+            background-color: #e9ecef;
+        }
+
+        .timeline-item:last-child::before {
+            display: none;
+        }
+
+        .timeline-item.completed::before {
+            background-color: var(--ml-success);
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .timeline-item.completed .timeline-marker {
+            background-color: var(--ml-success);
+            color: white;
+        }
+
+        .timeline-content h6 {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .timeline-content small {
+            color: #6c757d;
+        }
+    </style>
+}

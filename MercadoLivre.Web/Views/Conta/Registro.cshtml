@@ -1,239 +1,356 @@
-@model MercadoLivre.Web.Models.Usuario
+@model Usuario
+
 @{
-    ViewData["Title"] = "Criar Conta";
+    ViewData["Title"] = "Criar conta";
+    Layout = null; // Usar layout simplificado para registro
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-lg-6">
-            <div class="card shadow">
-                <div class="card-header bg-ml text-center">
-                    <h4 class="mb-0 text-dark">
-                        <i class="bi bi-person-plus"></i> Criar Conta
-                    </h4>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MercadoLivre</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- CSS Customizado -->
+    <link rel="stylesheet" href="~/css/mercadolivre.css" asp-append-version="true" />
+</head>
+<body class="bg-light">
+    <div class="container-fluid">
+        <div class="row min-vh-100">
+            <!-- Banner Lateral -->
+            <div class="col-lg-7 d-none d-lg-flex align-items-center justify-content-center" 
+                 style="background: linear-gradient(135deg, #00a650 0%, #008a43 100%);">
+                <div class="text-white text-center">
+                    <i class="fas fa-user-plus fa-5x mb-4"></i>
+                    <h1 class="display-4 fw-bold mb-4">Junte-se ao MercadoLivre</h1>
+                    <p class="lead mb-4">Milhões de produtos à sua disposição</p>
+                    <div class="row text-center">
+                        <div class="col-3">
+                            <i class="fas fa-shipping-fast fa-2x mb-2"></i>
+                            <div>Entrega Rápida</div>
+                        </div>
+                        <div class="col-3">
+                            <i class="fas fa-star fa-2x mb-2"></i>
+                            <div>Melhores Produtos</div>
+                        </div>
+                        <div class="col-3">
+                            <i class="fas fa-tags fa-2x mb-2"></i>
+                            <div>Melhores Preços</div>
+                        </div>
+                        <div class="col-3">
+                            <i class="fas fa-headset fa-2x mb-2"></i>
+                            <div>Suporte 24h</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body p-4">
-                    @if (ViewBag.Erro != null)
+            </div>
+
+            <!-- Formulário de Registro -->
+            <div class="col-lg-5 d-flex align-items-center justify-content-center">
+                <div class="w-100" style="max-width: 450px;">
+                    <div class="text-center mb-4">
+                        <h2 class="h3 fw-bold">Criar sua conta</h2>
+                        <p class="text-muted">Preencha os dados para se cadastrar</p>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(ViewBag.Erro))
                     {
-                        <div class="alert alert-danger" role="alert">
-                            <i class="bi bi-exclamation-triangle"></i> @ViewBag.Erro
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-circle"></i> @ViewBag.Erro
                         </div>
                     }
 
-                    <form method="post">
-                        <div class="mb-3">
-                            <label asp-for="Nome" class="form-label">
-                                <i class="bi bi-person"></i> Nome Completo
-                            </label>
-                            <input asp-for="Nome" class="form-control" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Email" class="form-label">
-                                <i class="bi bi-envelope"></i> Email
-                            </label>
-                            <input asp-for="Email" type="email" class="form-control" required>
-                        </div>
-
+                    <form asp-action="Registro" method="post" id="registro-form">
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Senha" class="form-label">
-                                    <i class="bi bi-lock"></i> Senha
-                                </label>
-                                <input asp-for="Senha" type="password" class="form-control" required minlength="6">
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="confirmarSenha" class="form-label">
-                                    <i class="bi bi-lock-fill"></i> Confirmar Senha
-                                </label>
-                                <input type="password" id="confirmarSenha" name="confirmarSenha" class="form-control" required minlength="6">
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Telefone" class="form-label">
-                                <i class="bi bi-telephone"></i> Telefone
-                            </label>
-                            <input asp-for="Telefone" type="tel" class="form-control" placeholder="(00) 00000-0000">
-                        </div>
-
-                        <h6 class="mt-4 mb-3 text-muted">
-                            <i class="bi bi-geo-alt"></i> Endereço (Opcional)
-                        </h6>
-
-                        <div class="row">
-                            <div class="col-md-8 mb-3">
-                                <label asp-for="Endereco" class="form-label">Endereço</label>
-                                <input asp-for="Endereco" class="form-control" placeholder="Rua, número, complemento">
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label asp-for="CEP" class="form-label">CEP</label>
-                                <div class="input-group">
-                                    <input asp-for="CEP" class="form-control" placeholder="00000-000" maxlength="9">
-                                    <button type="button" class="btn btn-outline-secondary" id="btnBuscarCEP">
-                                        <i class="bi bi-search"></i>
-                                    </button>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Nome" class="form-label">Nome completo:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-user"></i>
+                                        </span>
+                                        <input asp-for="Nome" class="form-control" placeholder="Seu nome completo" required>
+                                    </div>
+                                    <span asp-validation-for="Nome" class="text-danger"></span>
                                 </div>
-                                <small class="text-muted">Digite o CEP e clique na lupa ou digite 8 dígitos para busca automática</small>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Telefone" class="form-label">Telefone:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-phone"></i>
+                                        </span>
+                                        <input asp-for="Telefone" class="form-control" placeholder="(11) 99999-9999">
+                                    </div>
+                                    <span asp-validation-for="Telefone" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">E-mail:</label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-envelope"></i>
+                                </span>
+                                <input asp-for="Email" type="email" class="form-control" placeholder="seu@email.com" required>
+                            </div>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="Senha" class="form-label">Senha:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-lock"></i>
+                                        </span>
+                                        <input asp-for="Senha" type="password" class="form-control" placeholder="Sua senha" required>
+                                        <button class="btn btn-outline-secondary" type="button" id="toggle-password">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <span asp-validation-for="Senha" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="confirmarSenha" class="form-label">Confirmar senha:</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-lock"></i>
+                                        </span>
+                                        <input name="confirmarSenha" type="password" class="form-control" placeholder="Confirme a senha" required>
+                                        <button class="btn btn-outline-secondary" type="button" id="toggle-confirm-password">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Endereço (Opcional) -->
+                        <div class="mb-3">
+                            <h6 class="text-muted mb-3">
+                                <i class="fas fa-map-marker-alt"></i> Endereço (opcional)
+                            </h6>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="CEP" class="form-label">CEP:</label>
+                                    <input asp-for="CEP" class="form-control" placeholder="00000-000" maxlength="9">
+                                    <span asp-validation-for="CEP" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label asp-for="Endereco" class="form-label">Endereço:</label>
+                                    <input asp-for="Endereco" class="form-control" placeholder="Rua, número, complemento">
+                                    <span asp-validation-for="Endereco" class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-md-8 mb-3">
-                                <label asp-for="Cidade" class="form-label">Cidade</label>
-                                <input asp-for="Cidade" class="form-control">
+                            <div class="col-md-8">
+                                <div class="mb-3">
+                                    <label asp-for="Cidade" class="form-label">Cidade:</label>
+                                    <input asp-for="Cidade" class="form-control" placeholder="Sua cidade">
+                                    <span asp-validation-for="Cidade" class="text-danger"></span>
+                                </div>
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <label asp-for="Estado" class="form-label">Estado</label>
-                                <select asp-for="Estado" class="form-select">
-                                    <option value="">Selecione</option>
-                                    <option value="AC">Acre</option>
-                                    <option value="AL">Alagoas</option>
-                                    <option value="AP">Amapá</option>
-                                    <option value="AM">Amazonas</option>
-                                    <option value="BA">Bahia</option>
-                                    <option value="CE">Ceará</option>
-                                    <option value="DF">Distrito Federal</option>
-                                    <option value="ES">Espírito Santo</option>
-                                    <option value="GO">Goiás</option>
-                                    <option value="MA">Maranhão</option>
-                                    <option value="MT">Mato Grosso</option>
-                                    <option value="MS">Mato Grosso do Sul</option>
-                                    <option value="MG">Minas Gerais</option>
-                                    <option value="PA">Pará</option>
-                                    <option value="PB">Paraíba</option>
-                                    <option value="PR">Paraná</option>
-                                    <option value="PE">Pernambuco</option>
-                                    <option value="PI">Piauí</option>
-                                    <option value="RJ">Rio de Janeiro</option>
-                                    <option value="RN">Rio Grande do Norte</option>
-                                    <option value="RS">Rio Grande do Sul</option>
-                                    <option value="RO">Rondônia</option>
-                                    <option value="RR">Roraima</option>
-                                    <option value="SC">Santa Catarina</option>
-                                    <option value="SP">São Paulo</option>
-                                    <option value="SE">Sergipe</option>
-                                    <option value="TO">Tocantins</option>
-                                </select>
+                            <div class="col-md-4">
+                                <div class="mb-3">
+                                    <label asp-for="Estado" class="form-label">Estado:</label>
+                                    <select asp-for="Estado" class="form-select">
+                                        <option value="">UF</option>
+                                        <option value="AC">AC</option>
+                                        <option value="AL">AL</option>
+                                        <option value="AP">AP</option>
+                                        <option value="AM">AM</option>
+                                        <option value="BA">BA</option>
+                                        <option value="CE">CE</option>
+                                        <option value="DF">DF</option>
+                                        <option value="ES">ES</option>
+                                        <option value="GO">GO</option>
+                                        <option value="MA">MA</option>
+                                        <option value="MT">MT</option>
+                                        <option value="MS">MS</option>
+                                        <option value="MG">MG</option>
+                                        <option value="PA">PA</option>
+                                        <option value="PB">PB</option>
+                                        <option value="PR">PR</option>
+                                        <option value="PE">PE</option>
+                                        <option value="PI">PI</option>
+                                        <option value="RJ">RJ</option>
+                                        <option value="RN">RN</option>
+                                        <option value="RS">RS</option>
+                                        <option value="RO">RO</option>
+                                        <option value="RR">RR</option>
+                                        <option value="SC">SC</option>
+                                        <option value="SP">SP</option>
+                                        <option value="SE">SE</option>
+                                        <option value="TO">TO</option>
+                                    </select>
+                                    <span asp-validation-for="Estado" class="text-danger"></span>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="d-grid mt-4">
-                            <button type="submit" class="btn btn-ml">
-                                <i class="bi bi-person-plus"></i> Criar Conta
+                        <!-- Termos -->
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="aceita-termos" required>
+                            <label class="form-check-label small" for="aceita-termos">
+                                Aceito os <a href="#" class="text-decoration-none">termos de uso</a> e 
+                                <a href="#" class="text-decoration-none">política de privacidade</a>
+                            </label>
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="aceita-newsletter">
+                            <label class="form-check-label small" for="aceita-newsletter">
+                                Quero receber ofertas e novidades por e-mail
+                            </label>
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-ml-primary btn-lg">
+                                <i class="fas fa-user-plus"></i> Criar conta
                             </button>
                         </div>
                     </form>
-                </div>
-                <div class="card-footer text-center bg-light">
-                    <small class="text-muted">
-                        Já tem uma conta? 
-                        <a asp-action="Login" class="text-decoration-none">
-                            <i class="bi bi-box-arrow-in-right"></i> Fazer login
+
+                    <hr class="my-4">
+
+                    <div class="text-center">
+                        <p class="mb-3">Já tem uma conta?</p>
+                        <a asp-action="Login" class="btn btn-outline-primary w-100">
+                            <i class="fas fa-sign-in-alt"></i> Fazer login
                         </a>
-                    </small>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-muted">
+                            <i class="fas fa-arrow-left"></i> Voltar ao início
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="text-center mt-4">
-    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">
-        <i class="bi bi-arrow-left"></i> Voltar ao Início
-    </a>
-</div>
-
-<script>
-function buscarCEP(cep) {
-    if (!cep || cep.length !== 8) {
-        alert('Digite um CEP válido com 8 dígitos');
-        return;
-    }
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     
-    const btn = document.getElementById('btnBuscarCEP');
-    if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<i class="bi bi-hourglass-split"></i>';
-    }
-    
-    document.getElementById('Cidade').value = 'Buscando...';
-    document.getElementById('Estado').value = '';
-    
-    fetch(`https:
-        .then(response => response.json())
-        .then(data => {
-            if (!data.erro) {
-                document.getElementById('Cidade').value = data.localidade || '';
-                document.getElementById('Estado').value = data.uf || '';
+    <script>
+        $(document).ready(function() {
+            // Toggle password visibility
+            $('#toggle-password').on('click', function() {
+                const senhaInput = $('input[name="Senha"]');
+                const icon = $(this).find('i');
                 
-                const enderecoField = document.getElementById('Endereco');
-                if (!enderecoField.value.trim() && data.logradouro) {
-                    enderecoField.value = data.logradouro;
-                }
-                
-                alert('CEP encontrado com sucesso!');
-            } else {
-                document.getElementById('Cidade').value = '';
-                document.getElementById('Estado').value = '';
-                alert('CEP não encontrado');
-            }
-        })
-        .catch(error => {
-            document.getElementById('Cidade').value = '';
-            document.getElementById('Estado').value = '';
-            alert('Erro ao buscar CEP. Verifique sua conexão.');
-        })
-        .finally(() => {
-            if (btn) {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="bi bi-search"></i>';
-            }
-        });
-}
-
-document.addEventListener('DOMContentLoaded', function() {
-    const btnBuscar = document.getElementById('btnBuscarCEP');
-    if (btnBuscar) {
-        btnBuscar.addEventListener('click', function() {
-            const cep = document.getElementById('CEP').value.replace(/\D/g, '');
-            buscarCEP(cep);
-        });
-    }
-    
-    const cepField = document.getElementById('CEP');
-    if (cepField) {
-        cepField.addEventListener('input', function() {
-            let cep = this.value.replace(/\D/g, '');
-            
-            if (cep.length > 5) {
-                cep = cep.replace(/(\d{5})(\d{1,3})/, '$1-$2');
-            }
-            this.value = cep;
-            
-            if (cep.replace(/\D/g, '').length === 8) {
-                setTimeout(() => buscarCEP(cep.replace(/\D/g, '')), 500);
-            }
-        });
-    }
-    
-    const telefoneField = document.getElementById('Telefone');
-    if (telefoneField) {
-        telefoneField.addEventListener('input', function() {
-            let telefone = this.value.replace(/\D/g, '');
-            
-            if (telefone.length >= 2) {
-                if (telefone.length <= 6) {
-                    telefone = telefone.replace(/(\d{2})(\d{0,4})/, '($1) $2');
-                } else if (telefone.length <= 10) {
-                    telefone = telefone.replace(/(\d{2})(\d{4})(\d{0,4})/, '($1) $2-$3');
+                if (senhaInput.attr('type') === 'password') {
+                    senhaInput.attr('type', 'text');
+                    icon.removeClass('fa-eye').addClass('fa-eye-slash');
                 } else {
-                    telefone = telefone.replace(/(\d{2})(\d{5})(\d{0,4})/, '($1) $2-$3');
+                    senhaInput.attr('type', 'password');
+                    icon.removeClass('fa-eye-slash').addClass('fa-eye');
                 }
-            }
-            
-            this.value = telefone;
+            });
+
+            $('#toggle-confirm-password').on('click', function() {
+                const senhaInput = $('input[name="confirmarSenha"]');
+                const icon = $(this).find('i');
+                
+                if (senhaInput.attr('type') === 'password') {
+                    senhaInput.attr('type', 'text');
+                    icon.removeClass('fa-eye').addClass('fa-eye-slash');
+                } else {
+                    senhaInput.attr('type', 'password');
+                    icon.removeClass('fa-eye-slash').addClass('fa-eye');
+                }
+            });
+
+            // Máscara para telefone
+            $('input[name="Telefone"]').on('input', function() {
+                let value = $(this).val().replace(/\D/g, '');
+                value = value.replace(/^(\d{2})(\d)/, '($1) $2');
+                value = value.replace(/(\d{5})(\d)/, '$1-$2');
+                $(this).val(value);
+            });
+
+            // Máscara para CEP
+            $('input[name="CEP"]').on('input', function() {
+                let value = $(this).val().replace(/\D/g, '');
+                value = value.replace(/^(\d{5})(\d)/, '$1-$2');
+                $(this).val(value);
+            });
+
+            // Buscar CEP
+            $('input[name="CEP"]').on('blur', function() {
+                const cep = $(this).val().replace(/\D/g, '');
+                
+                if (cep.length === 8) {
+                    $.get(`https://viacep.com.br/ws/${cep}/json/`)
+                        .done(function(data) {
+                            if (!data.erro) {
+                                $('input[name="Endereco"]').val(data.logradouro);
+                                $('input[name="Cidade"]').val(data.localidade);
+                                $('select[name="Estado"]').val(data.uf);
+                            }
+                        })
+                        .fail(function() {
+                            console.log('Erro ao buscar CEP');
+                        });
+                }
+            });
+
+            // Validação do formulário
+            $('#registro-form').on('submit', function(e) {
+                const senha = $('input[name="Senha"]').val();
+                const confirmarSenha = $('input[name="confirmarSenha"]').val();
+
+                if (senha !== confirmarSenha) {
+                    e.preventDefault();
+                    alert('As senhas não coincidem.');
+                    return;
+                }
+
+                if (senha.length < 6) {
+                    e.preventDefault();
+                    alert('A senha deve ter pelo menos 6 caracteres.');
+                    return;
+                }
+
+                if (!$('#aceita-termos').is(':checked')) {
+                    e.preventDefault();
+                    alert('Você deve aceitar os termos de uso.');
+                    return;
+                }
+            });
+
+            // Validação em tempo real
+            $('input[name="confirmarSenha"]').on('keyup', function() {
+                const senha = $('input[name="Senha"]').val();
+                const confirmarSenha = $(this).val();
+                
+                if (confirmarSenha && senha !== confirmarSenha) {
+                    $(this).addClass('is-invalid');
+                } else {
+                    $(this).removeClass('is-invalid');
+                }
+            });
         });
-    }
-});
-</script>
+    </script>
+</body>
+</html>

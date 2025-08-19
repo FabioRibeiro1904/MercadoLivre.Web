@@ -122,4 +122,59 @@ public class HomeController : Controller
 
         return View(categorias);
     }
+
+    public async Task<IActionResult> OfertasDoDia()
+    {
+        var ofertas = await _context.Produtos
+            .Include(p => p.Categoria)
+            .Where(p => p.Ativo && p.Promocao)
+            .OrderByDescending(p => p.DataCadastro)
+            .ToListAsync();
+
+        ViewBag.Categorias = await _context.Categorias
+            .Where(c => c.Ativa)
+            .ToListAsync();
+
+        return View(ofertas);
+    }
+
+    public async Task<IActionResult> Supermercado()
+    {
+        // Buscar produtos de categorias relacionadas a supermercado
+        var categoriaSupermercado = await _context.Categorias
+            .Where(c => c.Ativa && (c.Nome.Contains("Alimentos") || c.Nome.Contains("Casa") || c.Nome.Contains("Bebidas")))
+            .ToListAsync();
+
+        var produtos = await _context.Produtos
+            .Include(p => p.Categoria)
+            .Where(p => p.Ativo && categoriaSupermercado.Select(c => c.Id).Contains(p.CategoriaId))
+            .OrderBy(p => p.Nome)
+            .ToListAsync();
+
+        ViewBag.Categorias = await _context.Categorias
+            .Where(c => c.Ativa)
+            .ToListAsync();
+
+        return View(produtos);
+    }
+
+    public async Task<IActionResult> Moda()
+    {
+        // Buscar produtos de categorias relacionadas a moda
+        var categoriaModa = await _context.Categorias
+            .Where(c => c.Ativa && (c.Nome.Contains("Roupas") || c.Nome.Contains("Moda") || c.Nome.Contains("Calçados") || c.Nome.Contains("Acessórios")))
+            .ToListAsync();
+
+        var produtos = await _context.Produtos
+            .Include(p => p.Categoria)
+            .Where(p => p.Ativo && categoriaModa.Select(c => c.Id).Contains(p.CategoriaId))
+            .OrderBy(p => p.Nome)
+            .ToListAsync();
+
+        ViewBag.Categorias = await _context.Categorias
+            .Where(c => c.Ativa)
+            .ToListAsync();
+
+        return View(produtos);
+    }
 }
